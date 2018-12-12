@@ -1,4 +1,4 @@
-dbp64@atlas:~$ db2 describe table dbmaster.Actors um die variables der tabelle zu bekommen 
+dbp64@atlas:~$ db2 describe table dbp64.spielBergMovies um die variables der tabelle zu bekommen 
 dbp64@atlas:~$ db2 list tables for schema dbmaster alle tabellen bekommen ACTORS Tabelle/Sicht  
 dbp64@atlas:~$ db2 set schema dbmaster
 
@@ -230,7 +230,22 @@ NAME                            SYSIBM    VARCHAR                    250     0 N
   2 Satz/Sätze ausgewählt.
 ------------------------------------------------------------------------------------------
 AUFGABE 6a
-create view lowRatedMovies as 
-select m.MOVIEID, m.TITLE, m.YEAR, r.RANK 
-from MOVIES m join RATINGS r on m.MOVIEID = r.MOVIEID 
-where r.RANK < 3 
+dbp64@atlas:~$ db2 "create view dbp64.lowRatedMovies as select m.MOVIEID, m.TITLE, m.YEAR, r.RANK from MOVIES m join RATINGS r on m.MOVIEID = r.MOVIEID where r.rank < 3"     
+
+Aufgabe 6b
+db2 "create view dbp64.spielBergMovies as select e.movieid, e.title, g.genre from PRODUCERS p join MOVIES2PRODUCERS m on p.producerid = m.producerid join genres g on g.movieid = m.movieid join movies e on g.movieid = e.movieid where p.name ='Spielberg, Steven'"
+
+AUFGABE 7a
+db2 "select e.TITLE, e.YEAR, e.RANK from dbp64.lowRatedMovies e where e.rank = (select min(l.rank) as minimum from dbp64.lowRatedMovies l where l.year = e.year)"
+
+AUFGABE 7b
+db2 "select s.Title, count(s.genre) as AMOUNT from dbp64.spielBergMovies s group by s.Title having count(s.genre)>= 4"
+
+Aufgabe 8a
+db2 "
+
+
+
+
+
+
