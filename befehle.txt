@@ -1,0 +1,236 @@
+dbp64@atlas:~$ db2 describe table dbmaster.Actors um die variables der tabelle zu bekommen 
+dbp64@atlas:~$ db2 list tables for schema dbmaster alle tabellen bekommen ACTORS Tabelle/Sicht  
+dbp64@atlas:~$ db2 set schema dbmaster
+
+                 Schema          Typ   Erstellungszeit           
+------------------------------- --------------- ----- --------------------------
+ACTORS                          DBMASTER        T     2017-11-09-16.35.15.044931
+BUSINESS                        DBMASTER        T     2017-11-09-16.35.10.444673
+COUNTRIES                       DBMASTER        T     2017-11-09-16.35.09.137734
+DIRECTORS                       DBMASTER        T     2017-11-09-16.35.08.706499
+DISTRIBUTORS                    DBMASTER        T     2017-11-09-16.35.14.619987
+EDITORS                         DBMASTER        T     2017-11-09-16.35.15.528663
+GENRES                          DBMASTER        T     2017-11-09-16.35.12.144623
+LANGUAGE                        DBMASTER        T     2017-11-09-16.35.09.536199
+MOVIES                          DBMASTER        T     2017-11-09-16.35.09.944473
+MOVIES2ACTORS                   DBMASTER        T     2017-11-09-16.35.16.894256
+MOVIES2DIRECTORS                DBMASTER        T     2017-11-09-16.35.15.978442
+MOVIES2EDITORS                  DBMASTER        T     2017-11-09-16.35.13.394813
+MOVIES2PRODUCERS                DBMASTER        T     2017-11-09-16.35.12.953200
+MOVIES2WRITERS                  DBMASTER        T     2017-11-09-16.35.11.669699
+PRODCOMPANIES                   DBMASTER        T     2017-11-09-16.35.17.345831
+PRODUCERS                       DBMASTER        T     2017-11-09-16.35.16.411879
+RATINGS                         DBMASTER        T     2017-11-09-16.35.14.236476
+RUNNINGTIMES                    DBMASTER        T     2017-11-09-16.35.13.819719
+WRITERS                         DBMASTER        T     2017-11-09-16.35.12.536380    
+________________________________________________________________________________________________
+
+dbp64@atlas:~$ db2 describe table dbmaster.Actors
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+ACTORID                         SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+SEX                             SYSIBM    CHARACTER                    1     0 Ja
+
+  3 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.BUSINESS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+BUSINESSTEXT                    SYSIBM    CLOB                  16777216     0 Ja
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.COUNTRIES
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+COUNTRY                         SYSIBM    VARCHAR                     50     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.DIRECTORS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+DIRECTORID                      SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+RATE                            SYSIBM    DOUBLE                       8     0 Ja
+GROSS                           SYSIBM    DECFLOAT                     8     0 Ja
+
+  4 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.DISTRIBUTORS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.EDITORS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+EDITORID                        SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.GENRES
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+GENRE                           SYSIBM    VARCHAR                     50     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.LANGUAGE
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+LANGUAGE                        SYSIBM    VARCHAR                    100     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.MOVIES
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+TITLE                           SYSIBM    VARCHAR                    400     0 Nein
+YEAR                            SYSIBM    VARCHAR                    100     0 Ja
+
+  3 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.MOVIES2ACTORS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+ACTORID                         SYSIBM    INTEGER                      4     0 Nein
+AS_CHARACTER                    SYSIBM    VARCHAR                   1000     0 Ja
+LEADING                         SYSIBM    INTEGER                      4     0 Ja
+
+  4 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.MOVIES2DIRECTORs
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+DIRECTORID                      SYSIBM    INTEGER                      4     0 Nein
+GENRE                           SYSIBM    VARCHAR                     15     0 Ja
+
+  3 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.MOVIES2EDITORS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+EDITORID                        SYSIBM    INTEGER                      4     0 Nein
+ADDITION                        SYSIBM    VARCHAR                   1000     0 Ja
+
+  3 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.MOVIES2PRODUCERS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+PRODUCERID                      SYSIBM    INTEGER                      4     0 Nein
+ADDITION                        SYSIBM    VARCHAR                    100     0 Nein
+
+  3 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.MOVIES2WRITERS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+WRITERID                        SYSIBM    INTEGER                      4     0 Nein
+ADDITION                        SYSIBM    VARCHAR                    250     0 Nein
+
+  3 Satz/Sätze ausgewählt.
+
+
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.PRODUCERS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+PRODUCERID                      SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.RATINGS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+RANK                            SYSIBM    CHARACTER                    4     0 Nein
+VOTES                           SYSIBM    INTEGER                      4     0 Ja
+DISTRIBUTION                    SYSIBM    CHARACTER                   10     0 Nein
+
+  4 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.RUNNINGTIMES
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+MOVIEID                         SYSIBM    INTEGER                      4     0 Nein
+TIME                            SYSIBM    VARCHAR                     50     0 Nein
+ADDITION                        SYSIBM    VARCHAR                    100     0 Nein
+TIME1                           SYSIBM    INTEGER                      4     0 Ja
+
+  4 Satz/Sätze ausgewählt.
+
+dbp64@atlas:~$ db2 describe table dbmaster.WRITERS
+
+                                Datentyp-                     Spalten-   # Komma  Null-
+Spaltenname                     schema    Datentypname        länge      stellen  zeichen
+------------------------------- --------- ------------------- ---------- -------- -------
+WRITERID                        SYSIBM    INTEGER                      4     0 Nein
+NAME                            SYSIBM    VARCHAR                    250     0 Nein
+
+  2 Satz/Sätze ausgewählt.
+------------------------------------------------------------------------------------------
+AUFGABE 6a
+create view lowRatedMovies as 
+select m.MOVIEID, m.TITLE, m.YEAR, r.RANK 
+from MOVIES m join RATINGS r on m.MOVIEID = r.MOVIEID 
+where r.RANK < 3 
