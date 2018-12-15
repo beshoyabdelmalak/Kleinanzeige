@@ -175,7 +175,7 @@ ADDITION                        SYSIBM    VARCHAR                    250     0 N
 
   3 Satz/Sätze ausgewählt.
 
-
+PRODCOMPANIES                   
 
                                 Datentyp-                     Spalten-   # Komma  Null-
 Spaltenname                     schema    Datentypname        länge      stellen  zeichen
@@ -230,7 +230,7 @@ NAME                            SYSIBM    VARCHAR                    250     0 N
   2 Satz/Sätze ausgewählt.
 ------------------------------------------------------------------------------------------
 AUFGABE 6a
-dbp64@atlas:~$ db2 "create view dbp64.lowRatedMovies as select m.MOVIEID, m.TITLE, m.YEAR, r.RANK from MOVIES m join RATINGS r on m.MOVIEID = r.MOVIEID where r.rank < 3"     
+db2 "create view dbp64.lowRatedMovies as select m.MOVIEID, m.TITLE, m.YEAR, r.RANK from MOVIES m join RATINGS r on m.MOVIEID = r.MOVIEID where r.rank < 3"     
 
 Aufgabe 6b
 db2 "create view dbp64.spielBergMovies as select e.movieid, e.title, g.genre from PRODUCERS p join MOVIES2PRODUCERS m on p.producerid = m.producerid join genres g on g.movieid = m.movieid join movies e on g.movieid = e.movieid where p.name ='Spielberg, Steven'"
@@ -241,8 +241,37 @@ db2 "select e.TITLE, e.YEAR, e.RANK from dbp64.lowRatedMovies e where e.rank = (
 AUFGABE 7b
 db2 "select s.Title, count(s.genre) as AMOUNT from dbp64.spielBergMovies s group by s.Title having count(s.genre)>= 4"
 
-Aufgabe 8a
-db2 "
+Aufgabe 
+8a
+db2 "select d.name, d.directorid, d.gross from directors d order by d.gross desc"
+8b
+db2 "select g.genre, avg(r.time1) as length from genres g join movies m on g.movieid = m.movieid join runningtimes r on r.movieid = g.movieid group by g.genre"
+8c
+db2 "select anzahl2 / anzahl1 as anzahl from (select tem.anzahl2, count(mc.movieid) as anzahl1 from (select count(ma.actorid) as anzahl2 from movies2actors ma join movies m on ma.movieid = m.movieid) tem, movies mc group by tem.anzahl2) tec"
+8d
+db2 "select tem1.title, tem1.numOfActors1 from (select count(ma1.actorid) as numOfActors1, m1.movieid, m1.title from movies2actors ma1 join movies m1 on ma1.movieid = m1.movieid group by m1.movieid, m1.title) tem1 where tem1.numOfActors1 = (select max(tem.numOfActors) from (select count(ma.actorid) as numOfActors, m.movieid, m.title from movies2actors ma join movies m on ma.movieid = m.movieid group by m.movieid, m.title) tem)"
+8e
+db2 "select di.name from (select * from (select * from movies m join movies2directors d on m.movieid = d.movieid) tem join actors a on tem.directorid = a.actorid ) tem1 join directors di on di.directorid=tem1.directorid group by di.name having count(tem1.directorid)>=1"
+8f
+db2 "select a.name, tem.anzahl from(select ma.actorid, count(m.movieid) as anzahl from movies m join movies2actors ma on m.movieid = ma.movieid group by ma.actorid having count(m.movieid) > 25 order by anzahl desc fetch first 10 rows only) tem join actors a on tem.actorid = a.actorid"
+8g
+//////db2 "select max(tem1.anzahl) from( select mw.writerid, count(tem.movieid) as anzahl from (select m.movieid from language l join movies m on l.movieid = m.movieid where l.language = 'German') tem join movies2writers mw on tem.movieid = mw.movieid group by mw.writerid) tem1 join writers w on w.writerid = tem1.writerid"
+
+
+
+
+
+
+
+
+
+SELECT CASE CAPACITY_TOTAL 
+            WHEN 0    THEN 0
+            WHEN NULL THEN 0
+            ELSE CAPACITY_USED / CAPACITY_TOTAL
+       END AS UTILIZATION
+  FROM MY_TABLE
+
 
 
 
