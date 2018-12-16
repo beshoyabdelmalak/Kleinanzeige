@@ -1,0 +1,181 @@
+﻿CREATE TABLE Benutzer (
+	Name varchar (255), 
+	BenutzerName varchar(255) not null,
+	EintrittsDatum date,
+	primary key (BenutzerName)
+);
+
+
+
+
+
+CREATE TABLE Kleinanzeige (
+	KLID integer not null,
+	Verauft bit,
+	Erstellungsdatum date,
+	Titel varchar(255),
+	Beschreibung varchar(1000),
+	Preis decimal check (Preis >= 0),
+	primary key (KLID)
+);
+
+
+
+
+
+CREATE TABLE Kommentar (
+	KText varchar(500),
+	EDatum date,
+	KAID integer not null
+);
+
+
+
+
+
+
+
+
+CREATE TABLE Nachricht (
+	NID integer not null,
+	NText varchar(500),
+	primary key (NID)
+);
+
+
+
+
+CREATE TABLE Kategorie (
+	ART varchar(50) check  (ART in ('Haus&Garten','Digitale Waren','Mode& Kosmetik','Multimedia & Elektronik'));
+	primary key (ART);
+);
+
+
+
+CREATE TABLE Kaufen (
+	KLID integer references Kleinanzeige on delete cascade,
+	Kaufdatum date,
+	BenutzerName varchar(255) references Benutzer on delete cascade,    --die Größe ??
+	primary key (KLID)
+);
+
+
+
+
+CREATE TABLE Gehört (
+	KLID integer references Kleinanzeige on delete cascade,
+	ART integer references Kategorie on delete cascade,
+	primary key(KLID,ART)
+);
+
+
+
+CREATE TABLE Schicken (
+	SenderBenutzerName varchar(255) references Benutzer on delete cascade,   -- die Größe
+	EmpfängerBenutzerName varchar(255) references Benutzer on delete cascade, --
+	NID integer references Nachricht on delete cascade,
+	primary key(NID)
+);
+
+
+
+
+CREATE TABLE Schreiben (
+	KLID integer references Kleinanzeige on delete cascade,
+	BenutzerName varchar(255) references Benutzer on delete cascade,
+	KAID integer references Kommentar on delete cascade,
+	primary key (KAID)
+);
+
+
+
+
+CREATE TABLE Erstellen (
+	KLID integer references Kleinanzeige on delete cascade,   
+	BenutzerName varchar(255) references Benutzer on delete cascade, --(255) not null,
+	primary key(KLID)
+);
+
+
+
+
+
+
+-- TRIGGER STATEMENT
+
+
+
+
+CREATE TRIGGER Status_Änderung
+after insert on Kaufen
+referencing New as new 
+for each row 
+begin atomic 
+	update Kleinanzeige k 
+		set k.verkauft = 1
+		where k.KLID = new.KLID
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
