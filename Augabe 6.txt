@@ -1,0 +1,5 @@
+AUFGABE 6a
+db2 "create view dbp64.lowRatedMovies as select m.MOVIEID, m.TITLE, m.YEAR, r.RANK from MOVIES m join RATINGS r on m.MOVIEID = r.MOVIEID where r.rank < 3"     
+
+Aufgabe 6b
+db2 "create view dbp64.spielBergMovies as select e.movieid, e.title, g.genre from PRODUCERS p join MOVIES2PRODUCERS m on p.producerid = m.producerid join genres g on g.movieid = m.movieid join movies e on g.movieid = e.movieid where p.name ='Spielberg, Steven'"

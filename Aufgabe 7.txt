@@ -1,0 +1,5 @@
+AUFGABE 7a
+db2 "select e.TITLE, e.YEAR, e.RANK from dbp64.lowRatedMovies e where e.rank = (select min(l.rank) as minimum from dbp64.lowRatedMovies l where l.year = e.year)"
+
+AUFGABE 7b
+db2 "select s.Title, count(s.genre) as AMOUNT from dbp64.spielBergMovies s group by s.Title having count(s.genre)>= 4"
