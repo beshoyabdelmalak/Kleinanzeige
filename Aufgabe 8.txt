@@ -13,3 +13,12 @@ db2 "select di.name from (select * from (select * from movies m join movies2dire
 db2 "select a.name, tem.anzahl from(select ma.actorid, count(m.movieid) as anzahl from movies m join movies2actors ma on m.movieid = ma.movieid group by ma.actorid having count(m.movieid) > 25 order by anzahl desc fetch first 10 rows only) tem join actors a on tem.actorid = a.actorid"
 8g
 db2 "select  w.name, tem1.anzahl as anzahl from(select mw.writerid, count(tem.movieid) as anzahl from(select m4.movieid from movies m4 join language l4 on m4.movieid= l4.movieid where m4.movieid not in (select m.movieid from language l join movies m on l.movieid = m.movieid where l.language != 'German')) tem join movies2writers mw on tem.movieid = mw.movieid group by mw.writerid) tem1 join writers w on w.writerid = tem1.writerid where tem1.anzahl =(select max(tem19.anzahl) as anzahl from(select mw9.writerid, count(tem9.movieid) as anzahl from(select m49.movieid from movies m49 join language l49 on m49.movieid= l49.movieid where m49.movieid not in (select m9.movieid from language l9 join movies m9 on l9.movieid = m9.movieid where l9.language != 'German')) tem9 join movies2writers mw9 on tem9.movieid = mw9.movieid group by mw9.writerid) tem19 join writers w9 on w9.writerid = tem19.writerid) "
+8h
+db2 "select * from(select * from(select count(m.movieid) as anzahl, g.genre from movies m join genres g on m.movieid = g.movieid where m.year between 1920 and 1925 group by g.genre) tem order by tem.anzahl desc fetch first 3 rows only) tem1 order by tem1.anzahl asc"
+
+
+
+
+
+
+
