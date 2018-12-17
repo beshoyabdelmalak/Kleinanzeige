@@ -1,1 +1,32 @@
-die ist auf dem rechner an der uni- vergiss es nicht von dort abzuholen
+dbp64@hecate:~$ db2 list db directory
+
+Eintrag für Datenbank 2:
+
+ Aliasname der Datenbank                                         = YASIN
+ Datenbankname                                                   = IMDB
+ Knotenname                                                      = SAMPLE
+ Release-Level der Datenbank                                     = d.00
+ Kommentar                                                       =
+ Verzeichniseintragungsart                                       = Fern
+ Datenbankpartitionsnummer für Katalog                           = -1
+ Hostname des Alternativservers                                  =
+ Portnummer des Alternativservers                                =
+
+
+
+
+dbp64@hecate:~$ db2 list node directory
+
+ Knotenverzeichnis
+
+ Anzahl Einträge im Verzeichnis = 1
+
+Eintrag für Knoten 1:
+
+ Knotenname                                                      = SAMPLE
+ Kommentar                                                       =
+ Verzeichniseintragungsart                                       = LOCAL
+ Protokoll                                                       = TCPIP
+ Hostname                                                        = bijou.is.inf.uni-due.de
+ Servicename                                                     = 50005
+
