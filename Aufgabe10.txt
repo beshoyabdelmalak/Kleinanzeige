@@ -1,0 +1,4 @@
+create trigger dbp64.trigger1 after insert on dbp64.mymovies referencing NEW as new for each row begin atomic update dbp64.moviecount k set k.moviecount = k.moviecount +1 where k.genre = new.genre; end 
+
+
+create trigger dbp64.trigger2 after delete on dbp64.mymovies referencing OLD as old for each row update dbp64.moviecount k set k.moviecount = k.moviecount-1 where k.genre = old.genre
