@@ -34,7 +34,6 @@ public final class UserServlet extends HttpServlet {
 
         // mach noch mehr
 
-        
     }
 
 }
