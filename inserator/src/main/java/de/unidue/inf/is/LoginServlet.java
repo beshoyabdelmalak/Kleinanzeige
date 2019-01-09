@@ -40,7 +40,7 @@ public final class LoginServlet extends HttpServlet {
     			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if"); 
     			loginStatus = false;
     			hilfsvar = true;
-    			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
+    			request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);   			
     		}else {
     			if(!hilfsvar && !loginStatus){
     				System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus +" im 2.if");

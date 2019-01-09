@@ -34,8 +34,14 @@
     <servlet-name>freemarker</servlet-name>
     <url-pattern>*.ftl</url-pattern>
   </servlet-mapping>
-  
-  <!-- Ab hier copy and paste -->
+    <servlet>
+    <servlet-name>hauptseite_servlet</servlet-name>
+    <servlet-class>de.unidue.inf.is.HauptseiteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hauptseite_servlet</servlet-name>
+    <url-pattern>/hauptseite</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>login_servlet</servlet-name>
     <servlet-class>de.unidue.inf.is.LoginServlet</servlet-class>
@@ -44,7 +50,6 @@
     <servlet-name>login_servlet</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>anzeigeErstellen_servlet</servlet-name>
     <servlet-class>de.unidue.inf.is.AnzeigeErstellenServlet</servlet-class>
@@ -53,8 +58,6 @@
     <servlet-name>anzeigeErstellen_servlet</servlet-name>
     <url-pattern>/anzeigeErstellen</url-pattern>
   </servlet-mapping>
-  
-
   <servlet>
     <servlet-name>hello_servlet</servlet-name>
     <servlet-class>de.unidue.inf.is.HelloServlet</servlet-class>
@@ -63,7 +66,6 @@
     <servlet-name>hello_servlet</servlet-name>
     <url-pattern>/hello</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>inserator_servlet</servlet-name>
     <servlet-class>de.unidue.inf.is.InseratorServlet</servlet-class>
@@ -72,9 +74,6 @@
     <servlet-name>inserator_servlet</servlet-name>
     <url-pattern>/inserator</url-pattern>
   </servlet-mapping>
-    
-  <!-- ******************************************************** -->
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>FreeMarker MVC Views</web-resource-name>
