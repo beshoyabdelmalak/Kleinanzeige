@@ -17,13 +17,14 @@ import de.unidue.inf.is.stores.UserStore;
 /**
  * Einfaches Beispiel, das die Verwendung des {@link UserStore}s zeigt.
  */
-public final class HauptseiteServlet extends HttpServlet {
+public final class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     private static List<User> userList = new ArrayList<>();
-    boolean loginStatus = false;
-    //private static String ersteller;
+    private boolean loginStatus = false;
+    private boolean hilfsvar = true;
+    private static String ersteller;
     // Just prepare static data to display on screen
     static {
         userList.add(new User("Bill Gates", "BillGates"));
@@ -34,13 +35,20 @@ public final class HauptseiteServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 
+    		request.setAttribute("navtype", "general");
     		if(loginStatus) {
-    			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
+    			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if"); 
+    			loginStatus = false;
+    			hilfsvar = true;
+    			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
     		}else {
-    			request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
+    			if(!hilfsvar && !loginStatus){
+    				System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus +" im 2.if");
+    				hilfsvar = true;
+    				request.setAttribute("navtype", "false");
+    			}
+    			request.getRequestDispatcher("/login.ftl").forward(request, response);
     		}
-
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
@@ -49,8 +57,11 @@ public final class HauptseiteServlet extends HttpServlet {
     	for(User u: userList ) {
     		if(benutzername.equals(u.getBenutzerName())) {
     			loginStatus= true;
-    			System.out.println("benutzername =" + benutzername + loginStatus + "ist die status" );
+    			ersteller = u.getname();    			
+    		}else {
+    			hilfsvar = false;
     		}
+    		
     		
     		
     	}
