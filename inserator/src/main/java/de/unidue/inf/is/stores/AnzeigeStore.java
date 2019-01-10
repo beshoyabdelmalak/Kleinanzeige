@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import com.ibm.db2.jcc.am.SqlException;
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.Kategorie;
 import de.unidue.inf.is.domain.User;
@@ -19,9 +21,10 @@ public final class AnzeigeStore implements Closeable {
 
     private Connection connection;
     private boolean complete;
+    private static AnzeigeStore instance;
 
 
-    public AnzeigeStore() throws StoreException {
+    private AnzeigeStore() throws StoreException {
         try {
             connection = DBUtil.getExternalConnection("project");
             connection.setAutoCommit(false);
@@ -30,7 +33,14 @@ public final class AnzeigeStore implements Closeable {
             throw new StoreException(e);
         }
     }
+    
+    public static AnzeigeStore getInstance() {
+		if (instance == null) {
+			instance = new AnzeigeStore();
+		}
 
+		return instance;
+	}
 
     public void addAnzeige(Anzeige anzeigeToAdd) throws StoreException {
         try {
@@ -77,6 +87,24 @@ public final class AnzeigeStore implements Closeable {
         catch (SQLException e) {
             throw new StoreException(e);
         }
+    }
+    
+    public ArrayList<Anzeige> getAllAnzeige(){
+		ArrayList<Anzeige> offers = new ArrayList<>();
+		String query = "select * from anzeige where status = 'aktiv'";
+		try {
+			PreparedStatement stmt= connection.prepareStatement(query);
+			ResultSet result = stmt.executeQuery();
+			while (result.next()) {
+				Anzeige offer= new Anzeige(result.getString(2), result.getString(3), result.getFloat(4), result.getString(6), result.getString(7));
+				offers.add(offer);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return offers; 
     }
     
 

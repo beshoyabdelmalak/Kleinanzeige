@@ -48,7 +48,7 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	String[] kategorien = request.getParameterValues("chk[]");
 	
     	Anzeige anzeige = new Anzeige(titel,text,preis, "aktiv", LoginServlet.getErsteller());
-    	AnzeigeStore anzeigeStore = new AnzeigeStore();
+    	AnzeigeStore anzeigeStore = AnzeigeStore.getInstance();
     	anzeigeStore.addAnzeige(anzeige);
     	int id = anzeigeStore.getIDofInsertedQ("insert into Anzeige (titel, text, preis, ersteller, status) values ('"+titel+"','"+text+"',"+",'"+preis+"',"+",'aktiv','"+ LoginServlet.getErsteller()+"')");        
     	for(String k: kategorien) {

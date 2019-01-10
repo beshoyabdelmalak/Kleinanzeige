@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!doctype html>
 <html>
 <head>
@@ -7,28 +6,19 @@
 
 </head>
 <body>
-
-
-
-
-
-
-</body>
-</html>
-=======
-<html>
-<head>
-<title>Hello World</title>
-
-</head>
- 
-<body>
   <form name = "sign out" action= "login">
-            
-      <a href="login" title="login">Abmelden</a>
 
-          
+      <a href="login" title="login">Abmelden</a>
   </form>
+  <div class="row">
+    <div class="column" style="background-color:#aaa;">
+      <h2>Column 1</h2>
+      <p>Some text..</p>
+    </div>
+    <div class="column" style="background-color:#bbb;">
+      <h2>Column 2</h2>
+      <p>Some text..</p>
+    </div>
+  </div>
   </body>
 </html>
->>>>>>> a74f3f68340515bc9ca8d324236cb72461702070

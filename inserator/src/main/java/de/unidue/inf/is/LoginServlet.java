@@ -46,14 +46,10 @@ public final class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
     		if(loginStatus) {
-//    			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if"); 
+//    			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if");
     			loginStatus = false;
     			hilfsvar = true;
-<<<<<<< HEAD
-    			request.getRequestDispatcher("/anzeigeErstellen").forward(request, response);   			
-=======
-    			response.sendRedirect("anzeigeErstellen");//request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
->>>>>>> a74f3f68340515bc9ca8d324236cb72461702070
+    			request.getRequestDispatcher("/anzeigeErstellen").forward(request, response);
     		}else {
     			if(!hilfsvar && !loginStatus){
 //    				System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus +" im 2.if");
@@ -70,18 +66,13 @@ public final class LoginServlet extends HttpServlet {
     	for(User u: userList ) {
     		if(benutzername.equals(u.getBenutzerName())) {
     			loginStatus= true;
-<<<<<<< HEAD
-    			ersteller = u.getname();    	
-    			break;
-=======
-    			ersteller = u.getname();    
->>>>>>> a74f3f68340515bc9ca8d324236cb72461702070
+    			ersteller = u.getname();
     		}else {
     			hilfsvar = false;
     		}
-    		
-    		
-    		
+
+
+
     	}
 
         doGet(request, response);
