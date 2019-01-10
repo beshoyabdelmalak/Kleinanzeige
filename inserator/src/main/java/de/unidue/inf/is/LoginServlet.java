@@ -40,7 +40,7 @@ public final class LoginServlet extends HttpServlet {
     			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if"); 
     			loginStatus = false;
     			hilfsvar = true;
-    			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
+    			request.getRequestDispatcher("/anzeigeErstellen").forward(request, response);   			
     		}else {
     			if(!hilfsvar && !loginStatus){
     				System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus +" im 2.if");
@@ -57,7 +57,8 @@ public final class LoginServlet extends HttpServlet {
     	for(User u: userList ) {
     		if(benutzername.equals(u.getBenutzerName())) {
     			loginStatus= true;
-    			ersteller = u.getname();    			
+    			ersteller = u.getname();    	
+    			break;
     		}else {
     			hilfsvar = false;
     		}
@@ -65,7 +66,6 @@ public final class LoginServlet extends HttpServlet {
     		
     		
     	}
-       
 
         doGet(request, response);
     }

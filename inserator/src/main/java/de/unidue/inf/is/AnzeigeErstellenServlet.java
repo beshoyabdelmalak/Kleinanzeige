@@ -27,6 +27,7 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
         // Put the user list in request and let freemarker paint it.
 
         request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
+        System.out.println(request.getParameter("username"));
     }
 
 

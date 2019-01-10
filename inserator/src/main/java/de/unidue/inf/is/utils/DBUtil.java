@@ -49,9 +49,9 @@ public final class DBUtil {
     		ex.printStackTrace();
     	}
     	
-		String user = properties.getProperty("gruppenname");
-		String pass = properties.getProperty("passwort");
-		String rechnername = properties.getProperty("rechnername");
+		String user = properties.getProperty("dbp64");
+		String pass = properties.getProperty("zoo4ahbo");
+		String rechnername = properties.getProperty("phoebe");
 		
 		String gruppennummer = user.substring(user.length()-2,user.length());
 		System.out.println(gruppennummer);
