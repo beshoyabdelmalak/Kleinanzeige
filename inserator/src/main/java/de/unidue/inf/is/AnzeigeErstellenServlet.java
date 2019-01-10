@@ -46,13 +46,13 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	float preis = Float.valueOf(request.getParameter("Preis")) ;
     	String[] kategorien = request.getParameterValues("chk[]");
 	
-    	Anzeige anzeige = new Anzeige(titel,text,preis, "aktiv", LoginServlet.getErsteller());
+    	Anzeige anzeige = new Anzeige(titel,text,preis, LoginServlet.getErsteller(), "aktiv");
     	AnzeigeStore anzeigeStore = new AnzeigeStore();
     	anzeigeStore.addAnzeige(anzeige);
-    	int id = anzeigeStore.getIDofInsertedQ();        
-    	for(String k: kategorien) {
-    		anzeigeStore.insertIntoHatKategorie(id, k);
-    	}
+//    	int id = anzeigeStore.getIDofInsertedQ();        
+//    	for(String k: kategorien) {
+//    		anzeigeStore.insertIntoHatKategorie(id, k);
+//    	}
     	anzeigeStore.complete();
     	anzeigeStore.close();
 

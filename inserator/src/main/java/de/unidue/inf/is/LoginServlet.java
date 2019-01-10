@@ -67,6 +67,7 @@ public final class LoginServlet extends HttpServlet {
     		if(benutzername.equals(u.getBenutzerName())) {
     			loginStatus= true;
     			ersteller = u.getname();    
+    			System.out.println(ersteller);
     		}else {
     			hilfsvar = false;
     			
