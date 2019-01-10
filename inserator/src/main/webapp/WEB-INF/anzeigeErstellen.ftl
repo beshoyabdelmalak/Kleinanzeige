@@ -1,45 +1,45 @@
 <html>
 <head>
 <title> Anzeigeerstellung </title>
-
+<script type="text/javascript">
+function val(){
+var chks = document.getElementsByName('chk[]');
+var hasChecked = false;
+for (var i = 0; i < chks.length; i++)
+{
+if (chks[i].checked)
+{
+hasChecked = true;
+break;
+}
+}
+if (hasChecked == false)
+{
+	alert("Bitte wählen Sie mindestens eine Kategorie aus");
+	return false;
+}
+return true;
+}
+</script>
 </head>
  
 <body>
 	<h1> Ihre neue Anzeige </h1>
-    <form name = "anzeigeErstellung" action="hello.ftl" method="post">
+    <form name = "anzeigeErstellung"  method="post">
           <fieldset> <legend>Anzeige anlegen:</legend>
-            Titel:<br> <input type="text" name="Titel" > <br>
-            Text:<br> <input type="text" name="Text" > <br>
-            Preis:<br> <input type="text" name="Preis" ><br><br>
-             <fieldset> <legend>geben Sie die Kategorie Ihrer Anzeige:</legend>
-			        <ul>
-				      <li> 
-				        <label>
-				          <input type="checkbox" name="Kategorie" value="Digitale Waren">
-				          Digitale Waren
-				        </label>
-				      </li>
-				      <li> 
-				        <label>
-				           <input type="checkbox" name="Kategorie" value="Haus & Garten">
-				           Haus & Garten
-				        </label>
-				      </li>
-				      <li>  
-				        <label>
-				          <input type="checkbox" name="Kategorie" value="Mode & Kosmetik">
-				          Mode & Kosmetik
-				        </label>
-				      </li>
-				      <li>
-				        <label>
-				          <input type="checkbox" name="Kategorie" value="Multimedia & Elektronik">
-				          Multimedia & Elektronik
-				        </label>
-				      </li>
-			    </ul>  
+            Titel:<br> <input type="text" name="Titel" maxlength ="100" placeholder= "HP Probook 480" required> <br>
+            Text:<br> <input type="text" name="Text" placeholder= "neue Ware" required> <br>
+            Preis:<br> <input type="number" name="Preis"min= "0" placeholder= "900" required> € <br><br>
+            
+             <fieldset > <legend>geben Sie die Kategorie Ihrer Anzeige an:</legend>
+			       <input name="chk[]" type="checkbox" value="Digitale Waren">Digitale Waren
+				   <input name="chk[]" type="checkbox" value="Haus & Garten">Haus & Garten
+				   <input name="chk[]" type="checkbox" value="Mode & Kosmetik">Mode & Kosmetik
+				   <input name="chk[]" type="checkbox" value="Multimedia & Elektronik">Multimedia & Elektronik
 			  </fieldset><br><br>
-            <input type="submit" value="Submit">
+			  
+            <input type="submit" name="submit" value="Submit" onclick="return val();" />
+			<input type="reset" value="Reset" />
           </fieldset>
   </form> 
  
