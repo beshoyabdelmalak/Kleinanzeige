@@ -34,9 +34,11 @@ public final class AnzeigeStore implements Closeable {
 
 
     public void addAnzeige(Anzeige anzeigeToAdd) throws StoreException {
+    	int numero = -1;
+    	int result = 0;
         try {
         	query = "insert into dbp64.Anzeige (titel, text, preis, ersteller, status) values (?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, anzeigeToAdd.getTitel());
             preparedStatement.setString(2, anzeigeToAdd.getText());
             preparedStatement.setFloat(3, anzeigeToAdd.getPreis());
@@ -45,41 +47,48 @@ public final class AnzeigeStore implements Closeable {
             
             
 
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            throw new StoreException(e);
-        }
-    }
-    public int getIDofInsertedQ() {
-    	Integer result = 0;
-    	Integer numero ;
-    	try {
-    		PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-    		numero = preparedStatement.executeUpdate();
-
-    		ResultSet rs = preparedStatement.getGeneratedKeys();
+            numero = preparedStatement.executeUpdate();   
+            ResultSet rs = preparedStatement.getGeneratedKeys();
     		if (rs.next()){
     		    result =rs.getInt(1);
     		}
-    		return result;
-
-        }
-        catch (SQLException e) {
+    		//return result;
+        }catch (SQLException e) {
             throw new StoreException(e);
         }
     }
+    public int idOfTheLastInsertedValue(String query) {
+        PreparedStatement preparedStatement;
+        ResultSet rs;
+        int result= 0;
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+        
+    	
+    }
+
 
     public void insertIntoHatKategorie(int id, String nameOfkategorie) throws StoreException {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into HatKategorie (anzeigeID, kategorie) values (?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into dbp64.HatKategorie (anzeigeID, kategorie) values (?,?)");
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, nameOfkategorie);
 
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            throw new StoreException(e);
+            e.fillInStackTrace();
         }
     }
     

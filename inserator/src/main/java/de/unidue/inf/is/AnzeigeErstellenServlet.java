@@ -49,10 +49,12 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	Anzeige anzeige = new Anzeige(titel,text,preis, LoginServlet.getErsteller(), "aktiv");
     	AnzeigeStore anzeigeStore = new AnzeigeStore();
     	anzeigeStore.addAnzeige(anzeige);
+    	int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.anzeige a ");
+    	System.out.println(result);
 //    	int id = anzeigeStore.getIDofInsertedQ();        
-//    	for(String k: kategorien) {
-//    		anzeigeStore.insertIntoHatKategorie(id, k);
-//    	}
+    	for(String k: kategorien) {
+    		anzeigeStore.insertIntoHatKategorie(result, k);
+    	}
     	anzeigeStore.complete();
     	anzeigeStore.close();
 
