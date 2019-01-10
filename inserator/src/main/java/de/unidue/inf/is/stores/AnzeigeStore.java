@@ -4,9 +4,12 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import de.unidue.inf.is.domain.Anzeige;
+import de.unidue.inf.is.domain.Kategorie;
 import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.utils.DBUtil;
 
@@ -31,13 +34,14 @@ public final class AnzeigeStore implements Closeable {
 
     public void addAnzeige(Anzeige anzeigeToAdd) throws StoreException {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Anzeige (titel, text, preis,erstellungsdatum, ersteller, status) values (?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into Anzeige (titel, text, preis, ersteller, status) values (?,?,?,?,?)");
             preparedStatement.setString(1, anzeigeToAdd.getTitel());
             preparedStatement.setString(2, anzeigeToAdd.getText());
             preparedStatement.setFloat(3, anzeigeToAdd.getPreis());
-            preparedStatement.setString(4, anzeigeToAdd.getErstellungsdatum().toString());
-            //preparedStatement.setFloat(3, anzeigeToAdd.getPreis());  hier muss der ersteller bestimmt werden
-            preparedStatement.setString(6, anzeigeToAdd.getStatus());
+            preparedStatement.setString(4, anzeigeToAdd.getErsteller()); 
+            preparedStatement.setString(5, anzeigeToAdd.getStatus());
+            
+            
 
             preparedStatement.executeUpdate();
         }
@@ -45,7 +49,36 @@ public final class AnzeigeStore implements Closeable {
             throw new StoreException(e);
         }
     }
+    public int getIDofInsertedQ(String query) {
+    	Integer result = 0;
+    	Integer numero ;
+    	try {
+    		PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+    		numero = preparedStatement.executeUpdate();
 
+    		ResultSet rs = preparedStatement.getGeneratedKeys();
+    		if (rs.next()){
+    		    result =rs.getInt(1);
+    		}
+    		return result;
+
+        }
+        catch (SQLException e) {
+            throw new StoreException(e);
+        }
+    }
+
+    public void insertIntoHatKategorie(int id, String nameOfkategorie) throws StoreException {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into HatKategorie (anzeigeID, kategorie) values ('id','nameOfkategorie')");
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new StoreException(e);
+        }
+    }
+    
 
     public void complete() {
         complete = true;
