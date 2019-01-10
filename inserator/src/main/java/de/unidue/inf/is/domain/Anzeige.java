@@ -6,10 +6,10 @@ public class Anzeige {
 	private String titel;
 	private String text;
 	private float preis;
-	private Date erstellungsdatum;
+	private String erstellungsdatum;
 	private String status;
 	private String ersteller;
-	public Anzeige(String titel, String text, float preis, String ersteller , String status) {
+	public Anzeige(String titel, String text, float preis, String ersteller, String status) {
 		this.titel = titel;
 		this.text = text;
 		this.preis = preis;
@@ -48,9 +48,9 @@ public class Anzeige {
 		this.preis = preis;
 	}
 	public String getErstellungsdatum() {
-		return erstellungsdatum.toString();
+		return erstellungsdatum;
 	}
-	public void setErstellungsdatum(Date erstellungsdatum) {
+	public void setErstellungsdatum(String erstellungsdatum) {
 		this.erstellungsdatum = erstellungsdatum;
 	}
 	public String getStatus() {

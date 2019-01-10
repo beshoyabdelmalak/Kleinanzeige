@@ -31,7 +31,6 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
         // Put the user list in request and let freemarker paint it.
 
         request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
-        System.out.println(request.getParameter("username"));
     }
 
 
@@ -48,9 +47,9 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	String[] kategorien = request.getParameterValues("chk[]");
 	
     	Anzeige anzeige = new Anzeige(titel,text,preis, "aktiv", LoginServlet.getErsteller());
-    	AnzeigeStore anzeigeStore = AnzeigeStore.getInstance();
+    	AnzeigeStore anzeigeStore = new AnzeigeStore();
     	anzeigeStore.addAnzeige(anzeige);
-    	int id = anzeigeStore.getIDofInsertedQ("insert into Anzeige (titel, text, preis, ersteller, status) values ('"+titel+"','"+text+"',"+",'"+preis+"',"+",'aktiv','"+ LoginServlet.getErsteller()+"')");        
+    	int id = anzeigeStore.getIDofInsertedQ();        
     	for(String k: kategorien) {
     		anzeigeStore.insertIntoHatKategorie(id, k);
     	}
@@ -66,7 +65,7 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 //    	}
 //    	String s = "insert into Anzeige (titel, text, preis, ersteller, status) values ('"+titel+"','"+text+"',"+",'"+preis+"',"+",'aktiv','"+ LoginServlet.getErsteller()+"')";
 //    	System.out.println(s);
-//    	
+//    	System.out.println("insert into Anzeige (titel, text, preis, ersteller, status) values ('"+titel+"','"+text+"',"+",'"+preis+"','"+ LoginServlet.getErsteller()+"','aktiv')");
     	
     
 
