@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.net.ntp.TimeStamp;
 
+import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.User;
+import de.unidue.inf.is.stores.AnzeigeStore;
 import de.unidue.inf.is.stores.UserStore;
 
 
@@ -49,7 +51,11 @@ public final class LoginServlet extends HttpServlet {
 //    			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if"); 
     			loginStatus = false;
     			hilfsvar = true;
-    			response.sendRedirect("anzeigeErstellen");//request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
+    			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
+    			ArrayList<Anzeige> array = new ArrayList<>();
+    			array = anzeigeStore.getAllAnzeige();
+    			request.setAttribute("result", array);
+    			request.getRequestDispatcher("/hauptseite.ftl").forward(request,response);//request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
     		}else {
     			if(!hilfsvar && !loginStatus){
 //    				System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus +" im 2.if");

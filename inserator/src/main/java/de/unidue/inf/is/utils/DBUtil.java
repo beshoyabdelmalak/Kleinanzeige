@@ -41,8 +41,8 @@ public final class DBUtil {
         
         InputStream input = null;
     	try {
-    		input = new FileInputStream("settings.properties");
-
+    		//input = new FileInputStream("/Users/beshoy/Kleinanzeige/inserator/settings.properties");
+    		input = new FileInputStream("settings.preperties");
     		// Zugangsdaten aus der Properties-Datei lesen
     		properties.load(input);
     	} catch (IOException ex) {

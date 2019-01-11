@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.Kategorie;
@@ -77,6 +78,28 @@ public final class AnzeigeStore implements Closeable {
         
     	
     }
+    
+   public ArrayList<Anzeige> getAllAnzeige(){
+	   ArrayList<Anzeige> array = new ArrayList<>();
+	   query = "select * from dbp64.anzeige where status = ?";
+	   try {
+		PreparedStatement pstmt=  connection.prepareStatement(query);
+		pstmt.setString(1, "aktiv");
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			Anzeige anzeige = new Anzeige(rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getString(6), rs.getString(7));
+			anzeige.setDate(rs.getDate(5));
+			array.add(anzeige);	
+		}
+		
+	  }catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return array;
+	   
+	   
+   }
 
 
     public void insertIntoHatKategorie(int id, String nameOfkategorie) throws StoreException {
