@@ -45,14 +45,11 @@ public final class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
-    		if(loginStatus) {
-//    			System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus+ " im 1.if"); 
-    			loginStatus = false;
+    		if(loginStatus) {    			loginStatus = false;
     			hilfsvar = true;
     			response.sendRedirect("anzeigeErstellen");//request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
     		}else {
     			if(!hilfsvar && !loginStatus){
-//    				System.out.println("hilfsvar "+hilfsvar+" hilfsvar "+loginStatus +" im 2.if");
     				hilfsvar = true;
     				request.setAttribute("navtype", "false");
     			}
@@ -67,7 +64,6 @@ public final class LoginServlet extends HttpServlet {
     		if(benutzername.equals(u.getBenutzerName())) {
     			loginStatus= true;
     			ersteller = u.getBenutzerName();    
-    			System.out.println(ersteller);
     		}else {
     			hilfsvar = false;
     			
