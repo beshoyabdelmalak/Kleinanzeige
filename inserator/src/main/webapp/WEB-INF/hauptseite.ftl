@@ -12,24 +12,30 @@
   display: inline-block;
   background-color:#aaa;
   width: 300px;
-  height: 300px;
+  height: 150px;
   padding: 5px; 
   margin :5px 0;
 }
 
 .show{
-margin : 20px;
+margin : 5%;
 }
 
 .link{
-margin: 20px;
+margin: 5%;
 }
 
 .show a {
 color:black;
 
 }
-
+#user{
+display:inline;
+float:right;
+}
+span{
+font-size:30px;
+}
 
 </style>
 
@@ -40,8 +46,9 @@ color:black;
 	    <#list result as user>
     	  <div class="column">
         	<a href='anzeigeDetails'>${user.titel}</a>
-        	<h2>seit : ${user.getDate()}</h2></br>
-        	<h1> Preis : ${user.getPreis()}</h1>
+        	<h4>seit : ${user.getDate()}</h4>
+        	<span>Preis : ${user.getPreis()}€</span>
+        	<span id="user"><a href='userDetails'>${user.getErsteller()}</a></span>
       	</div>
       	</#list>
      </div>
