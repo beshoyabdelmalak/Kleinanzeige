@@ -57,18 +57,7 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	}
     	anzeigeStore.complete();
     	anzeigeStore.close();
-
-//    	System.out.println(titel);
-//    	System.out.println(text);
-//    	System.out.println(preis);
-//    	System.out.println(LoginServlet.getErsteller());
-//    	for(String s: kategorien) {
-//    		System.out.println(s);
-//    	}
-//    	String s = "insert into Anzeige (titel, text, preis, ersteller, status) values ('"+titel+"','"+text+"',"+",'"+preis+"',"+",'aktiv','"+ LoginServlet.getErsteller()+"')";
-//    	System.out.println(s);
-//    	System.out.println("insert into Anzeige (titel, text, preis, ersteller, status) values ('"+titel+"','"+text+"',"+",'"+preis+"','"+ LoginServlet.getErsteller()+"','aktiv')");
-    	
+ 	
     
 
         doGet(request, response);
