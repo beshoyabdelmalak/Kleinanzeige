@@ -8,13 +8,13 @@
   box-sizing: border-box;
 }
 
-  .column {
-  display: inline-block;
-  background-color:#aaa;
-  width: 300px;
-  height: 150px;
-  padding: 5px; 
-  margin :5px 0;
+.column {
+display: inline-block;
+background-color:#aaa;
+width: 300px;
+height: 150px;
+padding: 5px; 
+margin :5px 0;
 }
 
 .show{
@@ -43,12 +43,12 @@ font-size:30px;
   <body>
   	<a href="login" title="login" class ="link">Abmelden</a>
     <div class ="show" >
-	    <#list result as user>
+	    <#list result as anzeige>
     	  <div class="column">
-        	<a href='anzeigeDetails'>${user.titel}</a>
-        	<h4>seit : ${user.getDate()}</h4>
-        	<span>Preis : ${user.getPreis()}€</span>
-        	<span id="user"><a href='userDetails'>${user.getErsteller()}</a></span>
+        	<a href='anzeigeDetails'>${anzeige.getTitel()}</a>
+        	<h4>seit : ${anzeige.getDate()}</h4>
+        	<span>Preis : ${anzeige.getPreis()}€</span>
+        	<span id="user"><a href='userDetails?username=${anzeige.getErsteller()}'>${anzeige.getErsteller()}</a></span>
       	</div>
       	</#list>
      </div>

@@ -47,13 +47,10 @@ public final class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
-    		if(loginStatus) {    			loginStatus = false;
+    		if(loginStatus) {    			
+    			loginStatus = false;
     			hilfsvar = true;
-    			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
-    			ArrayList<Anzeige> array = new ArrayList<>();
-    			array = anzeigeStore.getAllAnzeige();
-    			request.setAttribute("result", array);
-    			request.getRequestDispatcher("/hauptseite.ftl").forward(request,response);//request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
+    			response.sendRedirect("hauptseite");  //request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
     		}else {
     			if(!hilfsvar && !loginStatus){
     				hilfsvar = true;
