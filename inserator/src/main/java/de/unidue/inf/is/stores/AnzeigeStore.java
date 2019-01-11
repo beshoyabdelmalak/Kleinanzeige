@@ -34,11 +34,11 @@ public final class AnzeigeStore implements Closeable {
 
 
     public void addAnzeige(Anzeige anzeigeToAdd) throws StoreException {
-    	int numero = -1;
-    	int result = 0;
+//    	int numero = -1;
+//    	int result = 0;
         try {
         	query = "insert into dbp64.Anzeige (titel, text, preis, ersteller, status) values (?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);//, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, anzeigeToAdd.getTitel());
             preparedStatement.setString(2, anzeigeToAdd.getText());
             preparedStatement.setFloat(3, anzeigeToAdd.getPreis());
@@ -47,11 +47,11 @@ public final class AnzeigeStore implements Closeable {
             
             
 
-            numero = preparedStatement.executeUpdate();   
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-    		if (rs.next()){
-    		    result =rs.getInt(1);
-    		}
+            preparedStatement.executeUpdate();   
+//            ResultSet rs = preparedStatement.getGeneratedKeys();
+//    		if (rs.next()){
+//    		    result =rs.getInt(1);
+//    		}
     		//return result;
         }catch (SQLException e) {
             throw new StoreException(e);
