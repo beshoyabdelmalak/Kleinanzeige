@@ -2,6 +2,11 @@
 <head>
 
 <title>Anzeige Details</title>
+<script>
+function myFunction() {
+  location.reload();
+}
+</script>
 <style>
 .link{
 margin: 5%;
@@ -24,8 +29,8 @@ margin: 5%;
        	
        	  
 		 <#if kaeufer == '${anzeige.getErsteller()}'>
-	    	<form method = "post">
-				   <input type="submit" name="vomVerkäufer" value = "Löschen">
+	    	<form action= "anzeigeDetails?id=${anzeige.getId()}" method = "post">
+				   <input type="submit" name="vomVerkäufer" onclick="myFunction()" value = "Löschen">
 				   <input type="submit" name="vomVerkäufer" value = "editieren">
 			</form>
 		<#else>

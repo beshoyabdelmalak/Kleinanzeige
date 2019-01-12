@@ -76,16 +76,26 @@ public final class AnzeigeStore implements Closeable {
 		}
 		
 		return result;
-        
-    	
     }
-    
+   public void insertIntoKauft(String benutzername, int id) {
+	   String query = "insert into dbp64.Kauft(benutzername, anzeigeID ) values ('?', '?')";
+	   PreparedStatement preparedStatement = null;
+	   try {
+		   preparedStatement = connection.prepareStatement(query);
+		   preparedStatement.setString(1,benutzername );
+		   preparedStatement.setInt(2,id );
+		   
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	   
+   }
    public ArrayList<Anzeige> getAllAnzeige(){
 	   ArrayList<Anzeige> array = new ArrayList<>();
-	   query = "select * from dbp64.anzeige where status = ?";
+	   query = "select * from dbp64.anzeige ";
 	   try {
 		PreparedStatement pstmt=  connection.prepareStatement(query);
-		pstmt.setString(1, "aktiv");
 		ResultSet rs = pstmt.executeQuery();
 		while (rs.next()) {
 			Anzeige anzeige = new Anzeige(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4),rs.getDate(5), rs.getString(6), rs.getString(7));
@@ -100,6 +110,18 @@ public final class AnzeigeStore implements Closeable {
 	return array;
 	   
 	   
+   }
+   public void deleteAnzeigeWithId(int id) {
+	   String query = "delete from dbp64.anzeige where id = ?";
+	   PreparedStatement preparedStatement ;
+	   try {
+		   preparedStatement = connection.prepareStatement(query);
+		   preparedStatement.setInt(1, id);
+		   
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
    }
    public Anzeige getAnzeige(int id) {
 	   	String query = "select * from dbp64.anzeige where id = ?";
@@ -116,17 +138,12 @@ public final class AnzeigeStore implements Closeable {
 		    	 Date erstellungsdatum = rs.getDate(5);
 		    	 String ersteller = rs.getString(6);
 		    	 String status = rs.getString(7);
-		    	 
 		    	 anzeige = new Anzeige(id, titel, text, preis, erstellungsdatum, ersteller, status);
-		    	 //System.out.println(anzeige.getErsteller());
 		     }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	   	
-	   	
-	   	
 	   	return anzeige;
    }
 
