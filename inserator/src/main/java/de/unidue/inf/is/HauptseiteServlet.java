@@ -36,6 +36,8 @@ public class HauptseiteServlet extends HttpServlet {
 		AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 		ArrayList<Anzeige> array = new ArrayList<>();
 		array = anzeigeStore.getAllAnzeige();
+		anzeigeStore.complete();
+		anzeigeStore.close();
 		request.setAttribute("result", array);
 		request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
 	}

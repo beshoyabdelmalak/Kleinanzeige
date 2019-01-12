@@ -4,7 +4,13 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.naming.spi.DirStateFactory.Result;
+
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.utils.DBUtil;
@@ -40,7 +46,24 @@ public final class UserStore implements Closeable {
             throw new StoreException(e);
         }
     }
-
+    
+    public ArrayList<String> getUserNames(){
+    	ArrayList<String> array = new ArrayList<>();
+    	String query= "select benutzername from dbp64.benutzer"; 
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+	    	while (rs.next()) {
+	    		String user = rs.getString(1);
+	    		array.add(user);
+	    	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return array;
+    }
 
     public void complete() {
         complete = true;

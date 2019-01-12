@@ -26,7 +26,7 @@ public final class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static List<User> userList = new ArrayList<>();
+    private static List<String> userList = new ArrayList<>();
     private boolean loginStatus = false;
     private boolean hilfsvar = true;
     private static String ersteller;
@@ -37,13 +37,7 @@ public final class LoginServlet extends HttpServlet {
 		LoginServlet.ersteller = ersteller;
 	}
 	// Just prepare static data to display on screen
-    static {
-        userList.add(new User("Bill Gates", "BillGates"));
-        userList.add(new User("Steve Jobs", "SteveJobs"));
-        userList.add(new User("Larry Page", "LarryPage"));
-        userList.add(new User("Sergey Brin", "SergeyBrin"));
-        userList.add(new User("Larry Ellison", "LarryEllison"));
-    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
@@ -63,10 +57,12 @@ public final class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
                     IOException {
     	String benutzername = request.getParameter("Benutzername");
-    	for(User u: userList ) {
-    		if(benutzername.equals(u.getBenutzerName())) {
+    	UserStore user = new UserStore();
+    	userList = user.getUserNames();
+    	for(String u: userList ) {
+    		if(benutzername.equals(u)){
     			loginStatus= true;
-    			ersteller = u.getBenutzerName();    
+    			ersteller = u;    
     		}else {
     			hilfsvar = false;
     			
