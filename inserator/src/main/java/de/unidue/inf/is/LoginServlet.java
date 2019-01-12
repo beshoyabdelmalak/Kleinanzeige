@@ -29,12 +29,12 @@ public final class LoginServlet extends HttpServlet {
     private static List<String> userList = new ArrayList<>();
     private boolean loginStatus = false;
     private boolean hilfsvar = true;
-    private static String ersteller;
-    public static String getErsteller() {
-		return ersteller;
+    private static String angemeldeterBenutzer;
+    public static String getAngemeldeterBenutzer() {
+		return angemeldeterBenutzer;
 	}
-	public static void setErsteller(String ersteller) {
-		LoginServlet.ersteller = ersteller;
+	public static void setAngemeldeterBenutzer(String angemeldeterBenutzer) {
+		LoginServlet.angemeldeterBenutzer = angemeldeterBenutzer;
 	}
 	// Just prepare static data to display on screen
     
@@ -62,7 +62,7 @@ public final class LoginServlet extends HttpServlet {
     	for(String u: userList ) {
     		if(benutzername.equals(u)){
     			loginStatus= true;
-    			ersteller = u;    
+    			setAngemeldeterBenutzer(u);
     		}else {
     			hilfsvar = false;
     			

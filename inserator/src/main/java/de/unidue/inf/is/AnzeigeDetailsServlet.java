@@ -19,6 +19,8 @@ import de.unidue.inf.is.stores.AnzeigeStore;
 @WebServlet("/AnzeigeDetaeisServlet")
 public class AnzeigeDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private String erstller;
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,11 +38,17 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		int x = Integer.parseInt(request.getParameter("id"));
 		System.out.println(x);
 		AnzeigeStore anzeigeStore = new AnzeigeStore();
-		Anzeige anzeige = anzeigeStore.getAnzeige(x);		
-		ArrayList<Anzeige> array = new ArrayList<>();
-		array.add(anzeige);
-		System.out.println("lopjooj");
-		request.setAttribute("result", array);
+		Anzeige anzeige = anzeigeStore.getAnzeige(x);
+		erstller = anzeige.getErsteller();
+		System.out.println("du bist angemeldet als" + LoginServlet.getAngemeldeterBenutzer());
+		System.out.println("du bist im offer von" + erstller);
+		
+		ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
+		anzeigeZuAnzeige.add(anzeige);
+		request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
+		request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
+		anzeigeStore.complete();
+		anzeigeStore.close();
 		request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
 	}
 
@@ -48,7 +56,18 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("du bist in post von details new ");
+		LoginServlet loginServlet = new LoginServlet();
 		
+		if(!erstller.equals(loginServlet.getAngemeldeterBenutzer())) {
+			System.out.println("du hast kaufen gedrückt");
+		}else {
+			if(request.getParameter("vomVerkäufer").equals("Löschen")) {
+				System.out.println("du hast löschen gedrückt");
+			}else{
+				System.out.println("du hast editieren gedrückt");
+			}
+		}
 		doGet(request, response);
 	}
 
