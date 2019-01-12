@@ -9,17 +9,6 @@
     Firstname: <input type="text" name="firstname" /> <br/>
     Lastname: <input type="text" name="lastname" /> <br/>
     <input type="submit" value="Save" />
-  </form>
-  <table class="datatable">
-    <tr>
-        <th>Firstname</th>  <th>Lastname</th>
-    </tr>
-    <#list users as user>
-    <tr>
-        <td>${user.name}</td> <td>${user.benutzerName}</td>
-    </tr>
-    </#list>
-  </table>
- 
+  </form> 
 </body>
 </html>

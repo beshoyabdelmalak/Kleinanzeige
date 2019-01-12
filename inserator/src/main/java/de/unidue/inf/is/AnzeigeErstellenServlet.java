@@ -51,7 +51,6 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	anzeigeStore.addAnzeige(anzeige);
     	int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.anzeige a ");
     	System.out.println(result);
-//    	int id = anzeigeStore.getIDofInsertedQ();        
     	for(String k: kategorien) {
     		anzeigeStore.insertIntoHatKategorie(result, k);
     	}

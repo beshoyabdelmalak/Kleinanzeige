@@ -41,17 +41,17 @@ font-size:30px;
 
   </head>
   <body>
-  	<a href="login" title="login" class ="link">Abmelden</a>
+  	<a href="login" title="Abmelden" class ="link">Abmelden  </a>
+  	<a href="anzeigeErstellen" class="link">Anzeige Erstellen</a>
     <div class ="show" >
 	    <#list result as anzeige>
     	  <div class="column">
-        	<a href='anzeigeDetails'>${anzeige.getTitel()}</a>
+        	<a href="anzeigeDetails?id=${anzeige.getId()}" name = "anzeigeId" title = "um Dateils zu zeigen, drücken Sie hier">${anzeige.getTitel()}</a>
         	<h4>seit : ${anzeige.getDate()}</h4>
         	<span>Preis : ${anzeige.getPreis()}€</span>
         	<span id="user"><a href='userDetails?username=${anzeige.getErsteller()}'>${anzeige.getErsteller()}</a></span>
       	</div>
       	</#list>
      </div>
-     <a href="anzeigeErstellen" class="link">Anzeige Erstellen</a>
     </body>
   </html>

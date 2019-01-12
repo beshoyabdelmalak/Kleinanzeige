@@ -16,6 +16,15 @@ public class Anzeige {
 		this.status = status;
 		this.ersteller = ersteller;
 	}
+	public Anzeige(int id,String titel, String text, float preis, Date erstellungsdatum, String ersteller, String status) {
+		this.titel = titel;
+		this.text = text;
+		this.preis = preis;
+		this.status = status;
+		this.ersteller = ersteller;
+		this.id = id;
+		this.erstellungsdatum = erstellungsdatum;
+	}
 
 	public String getErsteller() {
 		return ersteller;
@@ -59,8 +68,10 @@ public class Anzeige {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	@Override
 	public String toString() {
-		return titel+ ' ' + text;
+		return "Anzeige [id=" + id + ", titel=" + titel + ", text=" + text + ", preis=" + preis + ", erstellungsdatum="
+				+ erstellungsdatum + ", status=" + status + ", ersteller=" + ersteller + "]";
 	}
 	
 

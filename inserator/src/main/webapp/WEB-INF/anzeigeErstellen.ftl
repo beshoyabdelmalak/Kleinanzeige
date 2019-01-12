@@ -42,6 +42,7 @@ return true;
 			<input type="reset" value="Reset" />
           </fieldset>
   </form> 
+  <a href="hauptseite" title="zurück in die Hauptseite" class ="link">Hauptseite</a>
  
   
 </body>
