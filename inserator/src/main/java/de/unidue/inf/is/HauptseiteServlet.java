@@ -33,13 +33,17 @@ public class HauptseiteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AnzeigeStore anzeigeStore = new AnzeigeStore(); 
-		ArrayList<Anzeige> array = new ArrayList<>();
-		array = anzeigeStore.getAllAnzeige();
-		anzeigeStore.complete();
-		anzeigeStore.close();
-		request.setAttribute("result", array);
-		request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
+//		if(!LoginServlet.getAngemeldeterBenutzer().equals(null)) {
+			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
+			ArrayList<Anzeige> array = new ArrayList<>();
+			array = anzeigeStore.getAllAnzeige();
+			anzeigeStore.complete();
+			anzeigeStore.close();
+			request.setAttribute("result", array);
+			request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
+//		}else {
+//			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+//		}
 	}
 
 	/**

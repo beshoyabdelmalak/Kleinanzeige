@@ -21,7 +21,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String erstller;
 	private Anzeige anzeige;
-	
+	private boolean status = true;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,21 +36,27 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int x = Integer.parseInt(request.getParameter("id"));
-		AnzeigeStore anzeigeStore = new AnzeigeStore();
-	    anzeige = anzeigeStore.getAnzeige(x);
-		erstller = anzeige.getErsteller();
-		System.out.println("du bist angemeldet als " + LoginServlet.getAngemeldeterBenutzer());
-		System.out.println("du bist im offer von " + erstller);
-		
-		ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
-		anzeigeZuAnzeige.add(anzeige);
-		request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
-		request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
-		request.setAttribute("status", anzeige.getStatus());
-		anzeigeStore.complete();
-		anzeigeStore.close();
-		request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
+		if(status) {
+			int x = Integer.parseInt(request.getParameter("id"));
+			AnzeigeStore anzeigeStore = new AnzeigeStore();
+		    anzeige = anzeigeStore.getAnzeige(x);
+			erstller = anzeige.getErsteller();
+//			System.out.println("du bist angemeldet als " + LoginServlet.getAngemeldeterBenutzer());
+//			System.out.println("du bist im offer von " + erstller);
+//			System.out.println(anzeige.getStatus());
+			
+			ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
+			anzeigeZuAnzeige.add(anzeige);
+			request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
+			request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
+			request.setAttribute("status", anzeige.getStatus());
+			anzeigeStore.complete();
+			anzeigeStore.close();
+			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
+		}else {
+			status = true;
+			request.getRequestDispatcher("/ErrorAnzeigenotfound.ftl").forward(request, response);
+		}
 	}
 
 	/**
@@ -62,13 +68,16 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		if(!erstller.equals(LoginServlet.getAngemeldeterBenutzer())) {
-			if(anzeige.getStatus() == "aktiv") {
+			System.out.println("du hast kaufen gedrückt");
+			System.out.println(anzeige.getStatus());
+			if(anzeige.getStatus().equals("aktiv   ")) {
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
 				anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
 				anzeigeStore.complete();
 				anzeigeStore.close();
+			}else {
+				status = false;
 			}
-
 			
 		}else {
 			if(request.getParameter("vomVerkäufer").equals("Löschen")) {
@@ -80,7 +89,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				anzeigeStore.close();
 			}else{
 				System.out.println("du hast editieren gedrückt");
-				response.sendRedirect("anzeigeEditieren");
+				
 			}
 		}
 		doGet(request, response);
