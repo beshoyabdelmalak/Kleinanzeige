@@ -22,6 +22,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	private String erstller;
 	private Anzeige anzeige;
 	private boolean status = true;
+	private boolean hilfsvar = true;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,26 +37,30 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if(status) {
-			int x = Integer.parseInt(request.getParameter("id"));
-			AnzeigeStore anzeigeStore = new AnzeigeStore();
-		    anzeige = anzeigeStore.getAnzeige(x);
-			erstller = anzeige.getErsteller();
-//			System.out.println("du bist angemeldet als " + LoginServlet.getAngemeldeterBenutzer());
-//			System.out.println("du bist im offer von " + erstller);
-//			System.out.println(anzeige.getStatus());
+		if(hilfsvar) {
+			if(status) {
+				int x = Integer.parseInt(request.getParameter("id"));
+				AnzeigeStore anzeigeStore = new AnzeigeStore();
+			    anzeige = anzeigeStore.getAnzeige(x);
+				erstller = anzeige.getErsteller();
+				
+				ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
+				anzeigeZuAnzeige.add(anzeige);
+				request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
+				request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
+				request.setAttribute("status", anzeige.getStatus());
+				anzeigeStore.complete();
+				anzeigeStore.close();
+				request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
+			}else {
+				status = true;
+				request.getRequestDispatcher("/ErrorAnzeigenotfound.ftl").forward(request, response);
+			}
 			
-			ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
-			anzeigeZuAnzeige.add(anzeige);
-			request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
-			request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
-			request.setAttribute("status", anzeige.getStatus());
-			anzeigeStore.complete();
-			anzeigeStore.close();
-			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
 		}else {
-			status = true;
-			request.getRequestDispatcher("/ErrorAnzeigenotfound.ftl").forward(request, response);
+			hilfsvar = true;
+			System.out.println("du hast recht");
+			response.sendRedirect("anzeigeEditieren");
 		}
 	}
 
@@ -88,6 +93,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				anzeigeStore.complete();
 				anzeigeStore.close();
 			}else{
+				hilfsvar = false;
 				System.out.println("du hast editieren gedrückt");
 				
 			}

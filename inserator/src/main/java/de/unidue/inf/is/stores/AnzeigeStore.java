@@ -59,6 +59,27 @@ public final class AnzeigeStore implements Closeable {
             throw new StoreException(e);
         }
     }
+    public void updateAnzeige(Anzeige anzeigeToAdd) throws StoreException {
+        try {
+        	query = "update dbp64.Anzeige set titel = ?, text = ?, preis = ? where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, anzeigeToAdd.getTitel());
+            preparedStatement.setString(2, anzeigeToAdd.getText());
+            preparedStatement.setFloat(3, anzeigeToAdd.getPreis());
+            preparedStatement.setInt(4, anzeigeToAdd.getId()); 
+            
+            
+
+            preparedStatement.executeUpdate();   
+//            ResultSet rs = preparedStatement.getGeneratedKeys();
+//    		if (rs.next()){
+//    		    result =rs.getInt(1);
+//    		}
+    		//return result;
+        }catch (SQLException e) {
+            throw new StoreException(e);
+        }
+    }
     public int idOfTheLastInsertedValue(String query) {
         PreparedStatement preparedStatement;
         ResultSet rs;

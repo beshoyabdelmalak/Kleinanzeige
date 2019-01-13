@@ -31,12 +31,16 @@ margin: 5%;
 		 <#if kaeufer == '${anzeige.getErsteller()}'>
 	    	<form action= "anzeigeDetails?id=${anzeige.getId()}" method = "post">
 				   <input type="submit" name="vomVerkäufer" onclick="myFunction()" value = "Löschen">
+				   <#if status == "aktiv   ">
 				   <input type="submit" name="vomVerkäufer" value = "editieren">
+				   </#if>
 			</form>
 		<#else>
+		 <#if status == "aktiv   ">
 			 <form method = "post">
 				   <input type="submit" name="vomKäufer" onclick="myFunction()" value= 'kaufen'>
 			 </form>
+	     </#if>
 		</#if>
      </#list>
      

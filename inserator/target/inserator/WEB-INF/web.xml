@@ -34,8 +34,7 @@
     <servlet-name>freemarker</servlet-name>
     <url-pattern>*.ftl</url-pattern>
   </servlet-mapping>
-
-   <servlet>
+  <servlet>
     <servlet-name>hauptseite_servlet</servlet-name>
     <servlet-class>de.unidue.inf.is.HauptseiteServlet</servlet-class>
   </servlet>
@@ -82,6 +81,14 @@
   <servlet-mapping>
     <servlet-name>anzeigeDetails_servlet</servlet-name>
     <url-pattern>anzeigeDetails</url-pattern>
+  </servlet-mapping>
+      <servlet>
+    <servlet-name>anzeigeEditieren_servlet</servlet-name>
+    <servlet-class>de.unidue.inf.is.AnzeigeEditierenServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>anzeigeEditieren_servlet</servlet-name>
+    <url-pattern>/anzeigeEditieren</url-pattern>
   </servlet-mapping>
   <security-constraint>
     <web-resource-collection>
