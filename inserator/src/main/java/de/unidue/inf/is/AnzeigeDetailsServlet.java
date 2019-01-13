@@ -23,7 +23,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	private Anzeige anzeige;
 	private boolean status = true;
 	private boolean hilfsvar = true;
-       
+    private int id;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -39,9 +39,9 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		if(hilfsvar) {
 			if(status) {
-				int x = Integer.parseInt(request.getParameter("id"));
+				id = Integer.parseInt(request.getParameter("id"));
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
-			    anzeige = anzeigeStore.getAnzeige(x);
+			    anzeige = anzeigeStore.getAnzeige(id);
 				erstller = anzeige.getErsteller();
 				
 				ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
@@ -60,7 +60,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		}else {
 			hilfsvar = true;
 			System.out.println("du hast recht");
-			response.sendRedirect("anzeigeEditieren");
+			response.sendRedirect("anzeigeEditieren?id="+ id);
 		}
 	}
 

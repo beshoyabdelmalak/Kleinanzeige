@@ -25,6 +25,12 @@ public class Anzeige {
 		this.id = id;
 		this.erstellungsdatum = erstellungsdatum;
 	}
+	public Anzeige(int id, String titel, String text, float preis) {
+		this.titel = titel;
+		this.text = text;
+		this.preis = preis;
+		this.id = id;
+	}
 
 	public String getErsteller() {
 		return ersteller;

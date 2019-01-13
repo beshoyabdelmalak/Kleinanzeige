@@ -27,9 +27,9 @@ return true;
 	<h1> Editieren Sie Ihre Anzeige </h1>
     <form name = "anzeigeErstellung"  method="post">
           <fieldset> <legend>Anzeige anlegen:</legend>
-            Titel:<br> <input type="text" name="Titel" maxlength ="100" placeholder= "HP Probook 480" required> <br>
-            Text:<br> <input type="text" name="Text" placeholder= "neue Ware" required> <br>
-            Preis:<br> <input type="number" name="Preis"min= "0" placeholder= "900" required> € <br><br>
+            Titel:<br> <input type="text" name="Titel" maxlength ="100" placeholder= "neue Titel" required> <br>
+            Text:<br> <input type="text" name="Text" placeholder= "neuer Text" required> <br>
+            Preis:<br> <input type="number" name="Preis"min= "0" placeholder= "neuen Wert" required> € <br><br>
             
              <fieldset > <legend>geben Sie die Kategorie Ihrer Anzeige an:</legend>
 			       <input name="chk[]" type="checkbox" value="Digitale Waren">Digitale Waren
@@ -42,7 +42,7 @@ return true;
 			<input type="reset" value="Reset" />
           </fieldset>
   </form> 
-  <a href="hauptseite" title="zurück in die Hauptseite" class ="link">Hauptseite</a>
+  <a href="hauptseite" title="zurück in die Hauptseite" >Hauptseite</a>
  
   
 </body>

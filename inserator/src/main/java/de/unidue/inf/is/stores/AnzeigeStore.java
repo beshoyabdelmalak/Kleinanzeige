@@ -59,6 +59,25 @@ public final class AnzeigeStore implements Closeable {
             throw new StoreException(e);
         }
     }
+    public void deleteFromHatKategorie(int id) throws StoreException {
+        try {
+        	query = "delete from dbp64.HatKategorie where anzeigeID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            
+            
+
+            preparedStatement.executeUpdate();   
+
+        }catch (SQLException e) {
+        	System.out.println("problem bei deleteFromHatKategorie");
+            e.printStackTrace();;
+        }
+    }
+    
+    
+
+    
     public void updateAnzeige(Anzeige anzeigeToAdd) throws StoreException {
         try {
         	query = "update dbp64.Anzeige set titel = ?, text = ?, preis = ? where id = ?";
@@ -71,13 +90,10 @@ public final class AnzeigeStore implements Closeable {
             
 
             preparedStatement.executeUpdate();   
-//            ResultSet rs = preparedStatement.getGeneratedKeys();
-//    		if (rs.next()){
-//    		    result =rs.getInt(1);
-//    		}
-    		//return result;
+
         }catch (SQLException e) {
-            throw new StoreException(e);
+        	
+            e.printStackTrace();
         }
     }
     public int idOfTheLastInsertedValue(String query) {
