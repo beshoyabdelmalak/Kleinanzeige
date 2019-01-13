@@ -20,6 +20,7 @@ import de.unidue.inf.is.stores.AnzeigeStore;
 public class AnzeigeDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String erstller;
+	private Anzeige anzeige;
 	
        
     /**
@@ -37,7 +38,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		int x = Integer.parseInt(request.getParameter("id"));
 		AnzeigeStore anzeigeStore = new AnzeigeStore();
-		Anzeige anzeige = anzeigeStore.getAnzeige(x);
+	    anzeige = anzeigeStore.getAnzeige(x);
 		erstller = anzeige.getErsteller();
 		System.out.println("du bist angemeldet als " + LoginServlet.getAngemeldeterBenutzer());
 		System.out.println("du bist im offer von " + erstller);
@@ -46,6 +47,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		anzeigeZuAnzeige.add(anzeige);
 		request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
 		request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
+		request.setAttribute("status", anzeige.getStatus());
 		anzeigeStore.complete();
 		anzeigeStore.close();
 		request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
@@ -60,15 +62,19 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		if(!erstller.equals(LoginServlet.getAngemeldeterBenutzer())) {
-			AnzeigeStore anzeigeStore = new AnzeigeStore();
-			anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
-			anzeigeStore.complete();
-			anzeigeStore.close();
-			System.out.println("du hast kaufen gedrückt");
+			if(anzeige.getStatus() == "aktiv") {
+				AnzeigeStore anzeigeStore = new AnzeigeStore();
+				anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
+				anzeigeStore.complete();
+				anzeigeStore.close();
+			}
+
+			
 		}else {
 			if(request.getParameter("vomVerkäufer").equals("Löschen")) {
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
 				System.out.println("du hast löschen gedrückt");
+				response.sendRedirect("hauptseite");
 				anzeigeStore.deleteAnzeigeWithId(id);
 				anzeigeStore.complete();
 				anzeigeStore.close();

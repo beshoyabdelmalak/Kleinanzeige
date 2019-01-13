@@ -78,12 +78,13 @@ public final class AnzeigeStore implements Closeable {
 		return result;
     }
    public void insertIntoKauft(String benutzername, int id) {
-	   String query = "insert into dbp64.Kauft(benutzername, anzeigeID ) values ('?', '?')";
+	   String query = "insert into dbp64.Kauft(benutzername, anzeigeID ) values (?, ?)";
 	   PreparedStatement preparedStatement = null;
 	   try {
 		   preparedStatement = connection.prepareStatement(query);
 		   preparedStatement.setString(1,benutzername );
 		   preparedStatement.setInt(2,id );
+		   preparedStatement.executeUpdate();
 		   
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
@@ -117,6 +118,7 @@ public final class AnzeigeStore implements Closeable {
 	   try {
 		   preparedStatement = connection.prepareStatement(query);
 		   preparedStatement.setInt(1, id);
+		   preparedStatement.executeUpdate();
 		   
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block

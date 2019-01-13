@@ -34,11 +34,10 @@ margin: 5%;
 				   <input type="submit" name="vomVerkäufer" value = "editieren">
 			</form>
 		<#else>
-			<form method = "post">
-				   <input type="submit" name="vomKäufer" value= 'kaufen'>
+			 <form method = "post">
+				   <input type="submit" name="vomKäufer" onclick="myFunction()" value= 'kaufen'>
 			 </form>
 		</#if>
-		 
      </#list>
      
 
