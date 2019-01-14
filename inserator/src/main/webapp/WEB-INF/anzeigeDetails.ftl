@@ -36,13 +36,29 @@ margin: 5%;
 				   </#if>
 			</form>
 		<#else>
-		 <#if status == "aktiv   ">
-			 <form method = "post">
-				   <input type="submit" name="vomKäufer" onclick="myFunction()" value= 'kaufen'>
-			 </form>
-	     </#if>
+			 <#if status == "aktiv   ">
+				 <form method = "post">
+					   <input type="submit" name="vomKäufer" onclick="myFunction()" value= 'kaufen'>
+				 </form>
+		     </#if>
 		</#if>
+		
+		 <form action="anzeigeDetails?id=${anzeige.getId()}" method="post">
+	        kommentieren: <input type="text" name="kommentarfield" /> <br/>
+		    <input type="submit" value="submit" />
+		  </form>
+	     <table class="datatable">
+	     <tr>
+	     	<th>Kommentaren</th>
+	     </tr>
+		     <#list kommentaren as kommentar>
+		     <tr>
+		        <td>${kommentar.getText()}</td>
+		     </tr>
+		     </#list>
+	     </table>
      </#list>
+     
      
 
 

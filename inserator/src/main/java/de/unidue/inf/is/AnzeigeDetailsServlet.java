@@ -1,6 +1,6 @@
 package de.unidue.inf.is;
 
-import java.awt.List;
+import java.awt.List; 
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.unidue.inf.is.domain.Anzeige;
+import de.unidue.inf.is.domain.Kommentar;
+
 import de.unidue.inf.is.stores.AnzeigeStore;
 
 /**
@@ -21,9 +23,11 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String erstller;
 	private Anzeige anzeige;
-	private boolean status = true;
 	private boolean hilfsvar = true;
+	private boolean hilfsvar1 = true;
     private int id;
+    private ArrayList<Kommentar> kommentaren = new ArrayList<>();
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,11 +40,11 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		if(hilfsvar) {
-			if(status) {
-				id = Integer.parseInt(request.getParameter("id"));
+			if(hilfsvar1) {
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
+				id = Integer.parseInt(request.getParameter("id"));
 			    anzeige = anzeigeStore.getAnzeige(id);
 				erstller = anzeige.getErsteller();
 				
@@ -49,14 +53,16 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
 				request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
 				request.setAttribute("status", anzeige.getStatus());
+				
+				kommentaren = anzeigeStore.getAllKommentaren(id);
+				request.setAttribute("kommentaren", kommentaren);
 				anzeigeStore.complete();
 				anzeigeStore.close();
-				request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
+				request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);	
 			}else {
-				status = true;
-				request.getRequestDispatcher("/ErrorAnzeigenotfound.ftl").forward(request, response);
+				hilfsvar1 = true;
+				response.sendRedirect("hauptseite");
 			}
-			
 		}else {
 			hilfsvar = true;
 			System.out.println("du hast recht");
@@ -68,36 +74,32 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("du bist in post von details new ");
-		//LoginServlet loginServlet = new LoginServlet();
-		
+		AnzeigeStore anzeigeStore = new AnzeigeStore();
 		int id = Integer.parseInt(request.getParameter("id"));
-		if(!erstller.equals(LoginServlet.getAngemeldeterBenutzer())) {
-			System.out.println("du hast kaufen gedrückt");
-			System.out.println(anzeige.getStatus());
-			if(anzeige.getStatus().equals("aktiv   ")) {
-				AnzeigeStore anzeigeStore = new AnzeigeStore();
+		String kommentarfield = request.getParameter("kommentarfield");
+		if(null != kommentarfield && !kommentarfield.isEmpty()) {
+			anzeigeStore.addKommentar(kommentarfield);
+			int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
+			anzeigeStore.insertIntoHatKommentar(result , LoginServlet.getAngemeldeterBenutzer(), id);
+		}else {
+			if(!erstller.equals(LoginServlet.getAngemeldeterBenutzer())) {
 				anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
-				anzeigeStore.complete();
-				anzeigeStore.close();
-			}else {
-				status = false;
-			}
-			
+
 		}else {
 			if(request.getParameter("vomVerkäufer").equals("Löschen")) {
-				AnzeigeStore anzeigeStore = new AnzeigeStore();
-				System.out.println("du hast löschen gedrückt");
-				response.sendRedirect("hauptseite");
+				hilfsvar1 = false;
 				anzeigeStore.deleteAnzeigeWithId(id);
-				anzeigeStore.complete();
-				anzeigeStore.close();
 			}else{
-				hilfsvar = false;
-				System.out.println("du hast editieren gedrückt");
-				
+				hilfsvar = false;	// hilfvar hilft beim redirct to editieren  			
 			}
 		}
+		}
+		
+		
+		
+		
+		anzeigeStore.complete();
+		anzeigeStore.close();
 		doGet(request, response);
 	}
 

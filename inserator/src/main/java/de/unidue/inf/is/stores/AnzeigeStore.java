@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.unidue.inf.is.domain.Anzeige;
+import de.unidue.inf.is.domain.Kommentar;
 import de.unidue.inf.is.domain.Kategorie;
 import de.unidue.inf.is.domain.User;
 import de.unidue.inf.is.utils.DBUtil;
@@ -36,8 +37,6 @@ public final class AnzeigeStore implements Closeable {
 
 
     public void addAnzeige(Anzeige anzeigeToAdd) throws StoreException {
-//    	int numero = -1;
-//    	int result = 0;
         try {
         	query = "insert into dbp64.Anzeige (titel, text, preis, ersteller, status) values (?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);//, Statement.RETURN_GENERATED_KEYS);
@@ -46,19 +45,25 @@ public final class AnzeigeStore implements Closeable {
             preparedStatement.setFloat(3, anzeigeToAdd.getPreis());
             preparedStatement.setString(4, anzeigeToAdd.getErsteller()); 
             preparedStatement.setString(5, "aktiv");
-            
-            
-
+           
             preparedStatement.executeUpdate();   
-//            ResultSet rs = preparedStatement.getGeneratedKeys();
-//    		if (rs.next()){
-//    		    result =rs.getInt(1);
-//    		}
-    		//return result;
+
         }catch (SQLException e) {
             throw new StoreException(e);
         }
     }
+    public void addKommentar(String kommentarToAdd) throws StoreException {
+        try {
+        	query = "insert into dbp64.kommentar (text) values (?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, kommentarToAdd);
+            preparedStatement.executeUpdate();   
+
+        }catch (SQLException e) {
+            throw new StoreException(e);
+        }
+    }
+    
     public void deleteFromHatKategorie(int id) throws StoreException {
         try {
         	query = "delete from dbp64.HatKategorie where anzeigeID = ?";
@@ -145,10 +150,28 @@ public final class AnzeigeStore implements Closeable {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	return array;
-	   
-	   
+	return array; 
    }
+   public ArrayList<Kommentar> getAllKommentaren(int id){
+	   ArrayList<Kommentar> kommentaren = new ArrayList<>();
+	   query = "select k.text, hk.benutzername from dbp64.kommentar k join dbp64.hatkommentar hk on k.id = hk.kommentarID  where hk.anzeigeid = ?"
+;
+	   try {
+		PreparedStatement pstmt=  connection.prepareStatement(query);
+		pstmt.setInt(1, id);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			Kommentar kommentar = new Kommentar(rs.getString(2) + "        :"+rs.getString(1));
+			kommentaren.add(kommentar);	
+		}
+		
+	  }catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return kommentaren; 
+   }
+   
    public void deleteAnzeigeWithId(int id) {
 	   String query = "delete from dbp64.anzeige where id = ?";
 	   PreparedStatement preparedStatement ;
@@ -192,6 +215,19 @@ public final class AnzeigeStore implements Closeable {
             PreparedStatement preparedStatement = connection.prepareStatement("insert into dbp64.HatKategorie (anzeigeID, kategorie) values (?,?)");
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, nameOfkategorie);
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+    }
+    public void insertIntoHatKommentar(int kommentarid, String benutzername, int anzeigeID) throws StoreException {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into dbp64.HatKommentar (kommentarID, benutzername ,anzeigeID) values (?,?, ?)");
+            preparedStatement.setInt(1, kommentarid);
+            preparedStatement.setString(2, benutzername);
+            preparedStatement.setInt(3, anzeigeID);
 
             preparedStatement.executeUpdate();
         }
