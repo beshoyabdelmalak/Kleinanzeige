@@ -23,16 +23,14 @@ public final class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // mach was
-        User userToAdd = new User("Manfred", "Mustermann");
-
-        try (UserStore userStore = new UserStore()) {
-            userStore.addUser(userToAdd);
-            // userStore.somethingElse();
-            userStore.complete();
-        }
-
-        // mach noch mehr
+        String s = request.getParameter("username");
+        UserStore userStore = new UserStore();
+        User user = userStore.getUser(s);
+        request.setAttribute("username", user.getBenutzerName());
+        request.setAttribute("name", user.getName());
+        request.setAttribute("items", user.getGekauft());
+        request.setAttribute("date", user.getEintrittsDatum());
+        request.getRequestDispatcher("/user.ftl").forward(request, response);
 
     }
 

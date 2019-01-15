@@ -1,11 +1,13 @@
 package de.unidue.inf.is.domain;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class User {
 
     private String name;
     private String benutzerName;
-    private Date erstellungsDatum;
+    private Date eintrittsDatum;
+    private int gekauft;
 
 
     public User() {
@@ -15,22 +17,24 @@ public final class User {
     public User(String name, String benutzerName) {
         this.name = name;
         this.benutzerName = benutzerName;
-        this.erstellungsDatum = new Date();
+        this.eintrittsDatum = new Date();
 
     }
 
 
-    public Date getErstellungsDatum() {
-		return erstellungsDatum;
+    public String getEintrittsDatum() {
+    	SimpleDateFormat mdyFormat = new SimpleDateFormat("MM-dd-yyyy");
+    	String mdy = mdyFormat.format(eintrittsDatum);
+		return mdy;
 	}
 
 
-	public void setErstellungsDatum(Date erstellungsDatum) {
-		this.erstellungsDatum = erstellungsDatum;
+	public void setEintrittsDatum(Date eintrittssDatum) {
+		this.eintrittsDatum = eintrittsDatum;
 	}
 
 
-	public String getname() {
+	public String getName() {
         return name;
     }
 
@@ -38,5 +42,15 @@ public final class User {
     public String getBenutzerName() {
         return benutzerName;
     }
+
+
+	public int getGekauft() {
+		return gekauft;
+	}
+
+
+	public void setGekauft(int gekauft) {
+		this.gekauft = gekauft;
+	}
 
 }

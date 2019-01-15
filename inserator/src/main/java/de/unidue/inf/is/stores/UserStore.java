@@ -38,7 +38,7 @@ public final class UserStore implements Closeable {
         try {
             PreparedStatement preparedStatement = connection
                             .prepareStatement("insert into user (firstname, lastname) values (?, ?)");
-            preparedStatement.setString(1, userToAdd.getname());
+            preparedStatement.setString(1, userToAdd.getName());
             preparedStatement.setString(2, userToAdd.getBenutzerName());
             preparedStatement.executeUpdate();
         }
@@ -63,6 +63,42 @@ public final class UserStore implements Closeable {
 		}
     	
     	return array;
+    }
+    
+    public User getUser(String username){
+    	String query1 = "select b.name, b.benutzername , b.eintrittsdatum, count(k.anzeigeID) from dbp64.Benutzer b join dbp64.kauft k on b.benutzername = k.benutzername "
+    			+ "where b.benutzername = ? group by b.benutzername, b.name, b.eintrittsdatum" ;
+    	String query2 = "select b.name, b.benutzername, b.eintrittsdatum from dbp64.Benutzer b where b.benutzername = ? ";
+    	User user = null;
+    	PreparedStatement pstmt;
+		try {
+			pstmt = connection.prepareStatement(query1);
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+	    	boolean empty = true ;
+	    	while (rs.next()) {
+	    		empty = false;
+	    		user = new User(rs.getString(1), rs.getString(2));
+	    		user.setEintrittsDatum(rs.getDate(3));
+	    		user.setGekauft(rs.getInt(4));
+	    	}
+	    	rs.close();
+	    	if (empty) {
+	    		pstmt = connection.prepareStatement(query2);
+				pstmt.setString(1, username);
+				ResultSet set = pstmt.executeQuery();
+		    	while (set.next()) {
+		    		user = new User(rs.getString(1), rs.getString(2));
+		    		user.setEintrittsDatum(rs.getDate(3));
+		    		user.setGekauft(0);
+		    	}
+	    	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return user;
+    	
     }
 
     public void complete() {
