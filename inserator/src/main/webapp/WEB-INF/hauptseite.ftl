@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-  	<a href="login" title="Abmelden">Abmelden  </a>
+  	<a href="logout" title="Abmelden">Abmelden  </a>
   	<a href="anzeigeErstellen">Anzeige Erstellen</a>
     <div class ="show" >
 	    <#list result as anzeige>

@@ -57,11 +57,13 @@ public final class LoginServlet extends HttpServlet {
     	userList = user.getUserNames();
     	for(String u: userList ) {
     		if(benutzername.equals(u)){
-    			response.sendRedirect("hauptseite?username="+benutzername);
-    			setAngemeldeterBenutzer(u);
-    			hilfsvar = false;
     			HttpSession session = request.getSession();
     			session.setAttribute("username", benutzername);
+    			//request.getRequestDispatcher("hauptseite").forward(request, response);
+    			response.sendRedirect("hauptseite");
+    			setAngemeldeterBenutzer(u);
+    			hilfsvar = false;
+    			
     		}
     	}
     	if(hilfsvar) {

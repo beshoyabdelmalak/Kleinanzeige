@@ -12,7 +12,7 @@ function myFunction() {
 </head>
  
 <body>
-     <a href="login" title="Abmelden">Abmelden  </a>
+     <a href="logout" title="Abmelden">Abmelden  </a>
      <a href="hauptseite" title="zurück in Hauptseite"> Hauptseite  </a>
   <h1> Anzeige Details </h1>
 	<#list anzeigeDeteils as anzeige>

@@ -36,7 +36,8 @@ public class HauptseiteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		if(!LoginServlet.getAngemeldeterBenutzer().equals(null)) {
 			HttpSession session = request.getSession(false);
-			if (request.getAttribute("username") != null) {
+		if (session.getAttribute("username") != null) {
+			//session.removeAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 			ArrayList<Anzeige> array = new ArrayList<>();
 			array = anzeigeStore.getAllAnzeige();
@@ -54,8 +55,6 @@ public class HauptseiteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-
 		doGet(request, response);
 	}
 
