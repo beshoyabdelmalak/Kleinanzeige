@@ -28,7 +28,6 @@ public final class LoginServlet extends HttpServlet {
 
     private static List<String> userList = new ArrayList<>();
     private boolean loginStatus = false;
-    private boolean hilfsvar = true;
     private static String angemeldeterBenutzer;
     public static String getAngemeldeterBenutzer() {
 		return angemeldeterBenutzer;
@@ -42,35 +41,30 @@ public final class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
     		if(loginStatus) {    			
-    			loginStatus = false;
-    			hilfsvar = true;
-    			response.sendRedirect("hauptseite");  //request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);   			
-    		}else {
-    			if(!hilfsvar && !loginStatus){
-    				hilfsvar = true;
-    				request.setAttribute("navtype", "false");
-    			}
-    			request.getRequestDispatcher("/login.ftl").forward(request, response);
+				request.setAttribute("navtype", "false");
+				loginStatus = false;
     		}
+    		request.getRequestDispatcher("/login.ftl").forward(request, response);
+
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
                     IOException {
     	String benutzername = request.getParameter("Benutzername");
     	UserStore user = new UserStore();
+    	boolean hilfsvar = true;
     	userList = user.getUserNames();
     	for(String u: userList ) {
     		if(benutzername.equals(u)){
-    			loginStatus= true;
+    			response.sendRedirect("hauptseite?username="+benutzername);
     			setAngemeldeterBenutzer(u);
-    		}else {
     			hilfsvar = false;
-    			
     		}
     	}
-       
-
-        doGet(request, response);
+    	if(hilfsvar) {
+    		loginStatus = true;
+			doGet(request, response);
+		}
     }
 
 }
