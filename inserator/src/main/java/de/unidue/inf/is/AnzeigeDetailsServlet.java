@@ -80,7 +80,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
 				anzeigeStore.complete();
 				anzeigeStore.close();
-
+				response.sendRedirect("hauptseite");
 			}else {
 				if(request.getParameter("vomVerkäufer").equals("Löschen")) {
 					anzeigeStore.deleteAnzeigeWithId(id);

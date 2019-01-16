@@ -37,11 +37,11 @@ public final class LoginServlet extends HttpServlet {
 		LoginServlet.angemeldeterBenutzer = angemeldeterBenutzer;
 	}
 	// Just prepare static data to display on screen
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
-    		if(loginStatus) {    			
+    		if(loginStatus) {
 				request.setAttribute("navtype", "false");
 				loginStatus = false;
     		}

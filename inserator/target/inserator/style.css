@@ -5,7 +5,7 @@
 
 body{
    text-align:center;
-   background: #efe4bf none repeat scroll 0 0;
+   background: #FFFFFF;
 }
 
 #wrapper{
@@ -32,4 +32,59 @@ body{
 }
 .centerBlock{
 	margin:0 auto;
+}
+
+.column {
+	display: inline-block;
+	background-color:#DCDCDC;
+	width: 300px;
+	height: 175px;
+	padding: 5px; 
+	margin :5px 0;
+	text-algin : left;
+}
+
+#user{
+	display:inline;
+	float:right;
+}
+span{
+	font-size:25px;
+}
+.status , .s{
+	float: right;
+	margin-top : 20px;
+}
+.purchased{
+	display: inline-block;
+	background-color:#696969;
+	width: 300px;
+	height: 175px;
+	padding: 5px; 
+	margin :5px 0;
+}
+.column span{
+	float : left;
+	margin-top : 15px;
+}
+.purchased span{
+	float : left;
+}
+.purchased a{
+	float: right;
+	font-size : 20px;
+	margin-top: 5px;
+}
+.purchased p{
+	float: right;
+}
+hr{
+	margin-bottom: 0px;
+}
+a{
+	margin-left:20px;
+	color: black
+}
+.datatable{
+	display:inline-block;
 }

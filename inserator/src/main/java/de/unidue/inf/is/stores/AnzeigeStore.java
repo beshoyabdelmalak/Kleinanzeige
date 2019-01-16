@@ -136,7 +136,7 @@ public final class AnzeigeStore implements Closeable {
    }
    public ArrayList<Anzeige> getAllAnzeige(){
 	   ArrayList<Anzeige> array = new ArrayList<>();
-	   query = "select * from dbp64.anzeige ";
+	   query = "select * from dbp64.anzeige where status = 'aktiv'";
 	   try {
 		PreparedStatement pstmt=  connection.prepareStatement(query);
 		ResultSet rs = pstmt.executeQuery();
