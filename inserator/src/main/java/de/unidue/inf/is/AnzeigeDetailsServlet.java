@@ -41,8 +41,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if(hilfsvar) {
-			if(hilfsvar1) {
+
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
 				id = Integer.parseInt(request.getParameter("id"));
 			    anzeige = anzeigeStore.getAnzeige(id);
@@ -59,15 +58,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				anzeigeStore.complete();
 				anzeigeStore.close();
 				request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);	
-			}else {
-				hilfsvar1 = true;
-				response.sendRedirect("hauptseite");
-			}
-		}else {
-			hilfsvar = true;
-			System.out.println("du hast recht");
-			response.sendRedirect("anzeigeEditieren?id="+ id);
-		}
+
 	}
 
 	/**
@@ -81,26 +72,34 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			anzeigeStore.addKommentar(kommentarfield);
 			int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
 			anzeigeStore.insertIntoHatKommentar(result , LoginServlet.getAngemeldeterBenutzer(), id);
+			anzeigeStore.complete();
+			anzeigeStore.close();
+			doGet(request, response);
 		}else {
 			if(!erstller.equals(LoginServlet.getAngemeldeterBenutzer())) {
 				anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
+				anzeigeStore.complete();
+				anzeigeStore.close();
 
-		}else {
-			if(request.getParameter("vomVerkäufer").equals("Löschen")) {
-				hilfsvar1 = false;
-				anzeigeStore.deleteAnzeigeWithId(id);
-			}else{
-				hilfsvar = false;	// hilfvar hilft beim redirct to editieren  			
-			}
+			}else {
+				if(request.getParameter("vomVerkäufer").equals("Löschen")) {
+					anzeigeStore.deleteAnzeigeWithId(id);
+					anzeigeStore.complete();
+					anzeigeStore.close();
+					response.sendRedirect("hauptseite");
+				}else{
+					anzeigeStore.complete();
+					anzeigeStore.close();
+					response.sendRedirect("anzeigeEditieren?id="+ id);
+				}
+			}	
 		}
-		}
 		
 		
 		
 		
-		anzeigeStore.complete();
-		anzeigeStore.close();
-		doGet(request, response);
+
+		
 	}
 
 }

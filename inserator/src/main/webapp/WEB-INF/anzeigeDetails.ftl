@@ -41,9 +41,9 @@ function myFunction() {
 		     </#if>
 		</#if>
 		
-		 <form action="anzeigeDetails?id=${anzeige.getId()}" method="post">
+		 <form action="anzeigeDetails?id=${anzeige.getId()}" method="post" >
 	        kommentieren: <input type="text" name="kommentarfield" /> <br/>
-		    <input type="submit" value="submit" />
+		    <input type="submit" value="submit" onclick="myFunction()" />
 		  </form>
 	     <table class="datatable">
 	     <tr>
