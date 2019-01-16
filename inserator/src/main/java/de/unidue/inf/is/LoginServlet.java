@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.net.ntp.TimeStamp;
 
@@ -59,6 +60,8 @@ public final class LoginServlet extends HttpServlet {
     			response.sendRedirect("hauptseite?username="+benutzername);
     			setAngemeldeterBenutzer(u);
     			hilfsvar = false;
+    			HttpSession session = request.getSession();
+    			session.setAttribute("username", benutzername);
     		}
     	}
     	if(hilfsvar) {

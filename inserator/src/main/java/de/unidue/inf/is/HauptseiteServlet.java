@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.User;
@@ -34,6 +35,8 @@ public class HauptseiteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		if(!LoginServlet.getAngemeldeterBenutzer().equals(null)) {
+			HttpSession session = request.getSession(false);
+			if (request.getAttribute("username") != null) {
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 			ArrayList<Anzeige> array = new ArrayList<>();
 			array = anzeigeStore.getAllAnzeige();
@@ -41,9 +44,9 @@ public class HauptseiteServlet extends HttpServlet {
 			anzeigeStore.close();
 			request.setAttribute("result", array);
 			request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
-//		}else {
-//			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
-//		}
+		}else {
+			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+		}
 	}
 
 	/**
