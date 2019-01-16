@@ -41,8 +41,8 @@ public final class DBUtil {
         
         InputStream input = null;
     	try {
-    		//input = new FileInputStream("/Users/beshoy/Kleinanzeige/inserator/settings.properties");
-    		input = new FileInputStream("settings.properties");
+    		input = new FileInputStream("/Users/beshoy/Kleinanzeige/inserator/settings.properties");
+    		//input = new FileInputStream("settings.properties");
     		// Zugangsdaten aus der Properties-Datei lesen
     		properties.load(input);
     	} catch (IOException ex) {
@@ -54,7 +54,6 @@ public final class DBUtil {
 		String rechnername = properties.getProperty("rechnername");
 		
 		String gruppennummer = user.substring(user.length()-2,user.length());
-		System.out.println(gruppennummer);
 
         final String url = "jdbc:db2://"+rechnername+".is.inf.uni-due.de:500"+gruppennummer+"/" + database + ":currentSchema="+user+";";
         Connection connection = DriverManager.getConnection(url, user,pass);

@@ -66,14 +66,15 @@ public final class UserStore implements Closeable {
     }
     
     public User getUser(String username){
-    	String query1 = "select b.name, b.benutzername , b.eintrittsdatum, count(k.anzeigeID) from dbp64.Benutzer b join dbp64.kauft k on b.benutzername = k.benutzername "
-    			+ "where b.benutzername = ? group by b.benutzername, b.name, b.eintrittsdatum" ;
+    	String query1 = "select b.name, b.benutzername , b.eintrittsdatum, count(k.id) from dbp64.Benutzer b join dbp64.anzeige k on b.benutzername = k.ersteller "
+    			+ "where b.benutzername = ? and k.status = ? group by b.benutzername, b.name, b.eintrittsdatum" ;
     	String query2 = "select b.name, b.benutzername, b.eintrittsdatum from dbp64.Benutzer b where b.benutzername = ? ";
     	User user = null;
     	PreparedStatement pstmt;
 		try {
 			pstmt = connection.prepareStatement(query1);
 			pstmt.setString(1, username);
+			pstmt.setString(2, "verkauft");
 			ResultSet rs = pstmt.executeQuery();
 	    	boolean empty = true ;
 	    	while (rs.next()) {
@@ -88,8 +89,8 @@ public final class UserStore implements Closeable {
 				pstmt.setString(1, username);
 				ResultSet set = pstmt.executeQuery();
 		    	while (set.next()) {
-		    		user = new User(rs.getString(1), rs.getString(2));
-		    		user.setEintrittsDatum(rs.getDate(3));
+		    		user = new User(set.getString(1), set.getString(2));
+		    		user.setEintrittsDatum(set.getDate(3));
 		    		user.setGekauft(0);
 		    	}
 	    	}
@@ -100,6 +101,7 @@ public final class UserStore implements Closeable {
 		return user;
     	
     }
+    
 
     public void complete() {
         complete = true;

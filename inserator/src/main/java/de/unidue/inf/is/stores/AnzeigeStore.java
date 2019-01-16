@@ -152,6 +152,7 @@ public final class AnzeigeStore implements Closeable {
 	}
 	return array; 
    }
+   
    public ArrayList<Kommentar> getAllKommentaren(int id){
 	   ArrayList<Kommentar> kommentaren = new ArrayList<>();
 	   query = "select k.text, hk.benutzername from dbp64.kommentar k join dbp64.hatkommentar hk on k.id = hk.kommentarID  where hk.anzeigeid = ?"
@@ -185,6 +186,7 @@ public final class AnzeigeStore implements Closeable {
 		e.printStackTrace();
 	}
    }
+   
    public Anzeige getAnzeige(int id) {
 	   	String query = "select * from dbp64.anzeige where id = ?";
 	   	PreparedStatement preparedStatement;
@@ -222,6 +224,7 @@ public final class AnzeigeStore implements Closeable {
             e.fillInStackTrace();
         }
     }
+    
     public void insertIntoHatKommentar(int kommentarid, String benutzername, int anzeigeID) throws StoreException {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert into dbp64.HatKommentar (kommentarID, benutzername ,anzeigeID) values (?,?, ?)");
@@ -234,6 +237,49 @@ public final class AnzeigeStore implements Closeable {
         catch (SQLException e) {
             e.fillInStackTrace();
         }
+    }
+    
+    public ArrayList<Anzeige> getOffersByUsername(String username){
+    	ArrayList<Anzeige> array = new ArrayList<>();
+    	String query = "select * from dbp64.anzeige where ersteller= ?";
+    	try {
+    		PreparedStatement pstmt = connection.prepareStatement(query);
+    		pstmt.setString(1, username);
+    		ResultSet rs = pstmt.executeQuery();
+    		while (rs.next()) {
+    			Anzeige anzeige = new Anzeige(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getDate(5)
+    					,rs.getString(6), rs.getString(7));
+    			array.add(anzeige);
+    			
+    		}
+    	}catch (SQLException e) {
+			// TODO: handle exception
+    		 e.fillInStackTrace();
+		}
+    	return array;
+    }
+    
+    public ArrayList<Anzeige> getPurchasedOffers(String username){
+    	ArrayList<Anzeige> array = new ArrayList<>();
+    	String query = "select a.titel, a.text, a.preis, a.ersteller, a.status, a.erstellungsdatum, k.benutzername from dbp64.benutzer b join dbp64.anzeige a on"
+    			+ " b.benutzername = a.ersteller join dbp64.kauft k on a.id = k.anzeigeID where k.benutzername = ?";
+    	try {
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Anzeige anzeige = new Anzeige(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getString(4),
+						rs.getString(5));
+				anzeige.setDate(rs.getDate(6));
+				anzeige.setBuyer(rs.getString(7));
+				array.add(anzeige);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return array;
     }
     
 

@@ -67,9 +67,6 @@ public final class LoginServlet extends HttpServlet {
     			hilfsvar = false;
     			
     		}
-    		
-    		
-    		
     	}
        
 

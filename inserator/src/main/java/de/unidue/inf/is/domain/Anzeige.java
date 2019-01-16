@@ -9,6 +9,8 @@ public class Anzeige {
 	private Date erstellungsdatum;
 	private String status;
 	private String ersteller;
+	private String buyer;
+	
 	public Anzeige(String titel, String text, float preis, String ersteller, String status) {
 		this.titel = titel;
 		this.text = text;
@@ -78,6 +80,12 @@ public class Anzeige {
 	public String toString() {
 		return "Anzeige [id=" + id + ", titel=" + titel + ", text=" + text + ", preis=" + preis + ", erstellungsdatum="
 				+ erstellungsdatum + ", status=" + status + ", ersteller=" + ersteller + "]";
+	}
+	public String getBuyer() {
+		return buyer;
+	}
+	public void setBuyer(String buyer) {
+		this.buyer = buyer;
 	}
 	
 
