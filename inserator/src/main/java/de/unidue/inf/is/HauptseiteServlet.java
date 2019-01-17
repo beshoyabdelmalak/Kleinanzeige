@@ -35,7 +35,7 @@ public class HauptseiteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		if(!LoginServlet.getAngemeldeterBenutzer().equals(null)) {
-			HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession(false);
 		if (session.getAttribute("username") != null) {
 			//session.removeAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 

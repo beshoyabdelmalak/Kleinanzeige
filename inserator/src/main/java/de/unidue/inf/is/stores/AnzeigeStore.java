@@ -79,6 +79,24 @@ public final class AnzeigeStore implements Closeable {
             e.printStackTrace();;
         }
     }
+    public ArrayList<String> getKategorien(int id) throws StoreException {
+    	ArrayList<String> kategorien = new ArrayList<>();
+        try {
+        	query = "select kategorie from dbp64.HatKategorie where anzeigeID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+             preparedStatement.setInt(1, id);
+             ResultSet rs = preparedStatement.executeQuery();   
+            while(rs.next()) {
+            	kategorien.add(rs.getString(1));
+			}
+			
+
+        }catch (SQLException e) {
+        	System.out.println("problem bei deleteFromHatKategorie");
+            e.printStackTrace();;
+        }
+        return kategorien;
+    }
     
     
 

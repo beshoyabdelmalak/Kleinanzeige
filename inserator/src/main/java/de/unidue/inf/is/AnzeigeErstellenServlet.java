@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import de.unidue.inf.is.*;
 import de.unidue.inf.is.domain.Anzeige;
@@ -21,6 +22,7 @@ import de.unidue.inf.is.stores.AnzeigeStore;
  * Einfaches Beispiel, das die Vewendung der Template-Engine zeigt.
  */
 public final class AnzeigeErstellenServlet extends HttpServlet {
+	private String benutzername;
 
     private static final long serialVersionUID = 1L;
 
@@ -29,8 +31,13 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Put the user list in request and let freemarker paint it.
-
-        request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("username") != null) {
+			benutzername = (String) session.getAttribute("username");
+			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
+		}else {
+			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+		}
     }
 
 
@@ -46,11 +53,10 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
     	float preis = Float.valueOf(request.getParameter("Preis")) ;
     	String[] kategorien = request.getParameterValues("chk[]");
 	
-    	Anzeige anzeige = new Anzeige(titel,text,preis, LoginServlet.getAngemeldeterBenutzer(), "aktiv");
+    	Anzeige anzeige = new Anzeige(titel,text,preis, benutzername, "aktiv");
     	AnzeigeStore anzeigeStore = new AnzeigeStore();
     	anzeigeStore.addAnzeige(anzeige);
     	int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.anzeige a ");
-    	System.out.println(result);
     	for(String k: kategorien) {
     		anzeigeStore.insertIntoHatKategorie(result, k);
     	}

@@ -1,6 +1,6 @@
 package de.unidue.inf.is;
 
-import java.awt.List; 
+import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.Kommentar;
@@ -22,84 +23,94 @@ import de.unidue.inf.is.stores.AnzeigeStore;
 public class AnzeigeDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String erstller;
+	private String benutzername;
 	private Anzeige anzeige;
-	private boolean hilfsvar = true;
-	private boolean hilfsvar1 = true;
-    private int id;
-    private ArrayList<Kommentar> kommentaren = new ArrayList<>();
-
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AnzeigeDetailsServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private int id;
+	private ArrayList<Kommentar> kommentaren = new ArrayList<>();
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AnzeigeDetailsServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("username") != null) {
+			benutzername = (String) session.getAttribute("username");
+			AnzeigeStore anzeigeStore = new AnzeigeStore();
+			id = Integer.parseInt(request.getParameter("id"));
+			anzeige = anzeigeStore.getAnzeige(id);
+			erstller = anzeige.getErsteller();
 
-				AnzeigeStore anzeigeStore = new AnzeigeStore();
-				id = Integer.parseInt(request.getParameter("id"));
-			    anzeige = anzeigeStore.getAnzeige(id);
-				erstller = anzeige.getErsteller();
-				
-				ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
-				anzeigeZuAnzeige.add(anzeige);
-				request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
-				request.setAttribute("kaeufer", LoginServlet.getAngemeldeterBenutzer());
-				request.setAttribute("status", anzeige.getStatus());
-				
-				kommentaren = anzeigeStore.getAllKommentaren(id);
-				request.setAttribute("kommentaren", kommentaren);
-				anzeigeStore.complete();
-				anzeigeStore.close();
-				request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);	
+			ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
+			anzeigeZuAnzeige.add(anzeige);
+			request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
+			request.setAttribute("kaeufer", benutzername);
+			request.setAttribute("status", anzeige.getStatus());
+
+			kommentaren = anzeigeStore.getAllKommentaren(id);
+			request.setAttribute("kommentaren", kommentaren);
+			anzeigeStore.complete();
+			anzeigeStore.close();
+			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+		}
 
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		AnzeigeStore anzeigeStore = new AnzeigeStore();
 		int id = Integer.parseInt(request.getParameter("id"));
 		String kommentarfield = request.getParameter("kommentarfield");
-		if(null != kommentarfield && !kommentarfield.isEmpty()) {
+		if (null != kommentarfield && !kommentarfield.isEmpty()) {
 			anzeigeStore.addKommentar(kommentarfield);
 			int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
-			anzeigeStore.insertIntoHatKommentar(result , LoginServlet.getAngemeldeterBenutzer(), id);
+			anzeigeStore.insertIntoHatKommentar(result, benutzername, id);
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			doGet(request, response);
-		}else {
-			if(!erstller.equals(LoginServlet.getAngemeldeterBenutzer())) {
-				anzeigeStore.insertIntoKauft(LoginServlet.getAngemeldeterBenutzer(), id);
+		} else {
+			if (!erstller.equals(benutzername) && null != request.getParameter("vomKäufer")
+					&& !request.getParameter("vomKäufer").isEmpty()) {
+				anzeigeStore.insertIntoKauft(benutzername, id);
 				anzeigeStore.complete();
 				anzeigeStore.close();
 				response.sendRedirect("hauptseite");
-			}else {
-				if(request.getParameter("vomVerkäufer").equals("Löschen")) {
+			} else {
+				if (null != request.getParameter("vomVerkäufer") && !request.getParameter("vomVerkäufer").isEmpty()
+						&& request.getParameter("vomVerkäufer").equals("Löschen")) {
 					anzeigeStore.deleteAnzeigeWithId(id);
 					anzeigeStore.complete();
 					anzeigeStore.close();
 					response.sendRedirect("hauptseite");
-				}else{
-					anzeigeStore.complete();
-					anzeigeStore.close();
-					response.sendRedirect("anzeigeEditieren?id="+ id);
-				}
-			}	
-		}
-		
-		
-		
-		
+				} else {
+					if (null != request.getParameter("vomVerkäufer") && !request.getParameter("vomVerkäufer").isEmpty()
+							&& request.getParameter("vomVerkäufer").equals("editieren")) {
+						anzeigeStore.complete();
+						anzeigeStore.close();
+						response.sendRedirect("anzeigeEditieren?id=" + id);
 
-		
+					} else {
+						doGet(request, response);
+					}
+				}
+			}
+
+		}
 	}
 
 }

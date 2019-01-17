@@ -27,15 +27,15 @@ return true;
 	<h1> Editieren Sie Ihre Anzeige </h1>
     <form name = "anzeigeErstellung"  method="post">
           <fieldset> <legend>Anzeige anlegen:</legend>
-            Titel:<br> <input type="text" name="Titel" maxlength ="100" placeholder= "neue Titel" required> <br>
-            Text:<br> <input type="text" name="Text" placeholder= "neuer Text" required> <br>
-            Preis:<br> <input type="number" name="Preis"min= "0" placeholder= "neuen Wert" required> € <br><br>
+            Titel:<br> <input type="text" name="Titel" maxlength ="100" value = "${valueOfTitel}" required> <br>
+            Text:<br> <input type="text" name="Text" value = "${valueOfText}" required> <br>
+            Preis:<br> <input type="number" name="Preis"min= "0" value = "${valueOfPreis}" required> € <br><br>
             
              <fieldset > <legend>geben Sie die Kategorie Ihrer Anzeige an:</legend>
-			       <input name="chk[]" type="checkbox" value="Digitale Waren">Digitale Waren
-				   <input name="chk[]" type="checkbox" value="Haus & Garten">Haus & Garten
-				   <input name="chk[]" type="checkbox" value="Mode & Kosmetik">Mode & Kosmetik
-				   <input name="chk[]" type="checkbox" value="Multimedia & Elektronik">Multimedia & Elektronik
+			       <input name="chk[]" type="checkbox" value="Digitale Waren" ${valueOfchk1} >Digitale Waren
+				   <input name="chk[]" type="checkbox" value="Haus & Garten" ${valueOfchk2}>Haus & Garten
+				   <input name="chk[]" type="checkbox" value="Mode & Kosmetik" ${valueOfchk3}>Mode & Kosmetik
+				   <input name="chk[]" type="checkbox" value="Multimedia & Elektronik" ${valueOfchk4} >Multimedia & Elektronik
 			  </fieldset><br><br>
 			  
             <input type="submit" name="submit" value="editieren" onclick="return val();" />

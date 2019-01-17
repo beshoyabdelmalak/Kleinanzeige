@@ -29,15 +29,6 @@ public final class LoginServlet extends HttpServlet {
 
     private static List<String> userList = new ArrayList<>();
     private boolean loginStatus = false;
-    private static String angemeldeterBenutzer;
-    public static String getAngemeldeterBenutzer() {
-		return angemeldeterBenutzer;
-	}
-	public static void setAngemeldeterBenutzer(String angemeldeterBenutzer) {
-		LoginServlet.angemeldeterBenutzer = angemeldeterBenutzer;
-	}
-	// Just prepare static data to display on screen
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     		request.setAttribute("navtype", "general");
@@ -59,11 +50,8 @@ public final class LoginServlet extends HttpServlet {
     		if(benutzername.equals(u)){
     			HttpSession session = request.getSession();
     			session.setAttribute("username", benutzername);
-    			//request.getRequestDispatcher("hauptseite").forward(request, response);
     			response.sendRedirect("hauptseite");
-    			setAngemeldeterBenutzer(u);
     			hilfsvar = false;
-    			
     		}
     	}
     	if(hilfsvar) {
