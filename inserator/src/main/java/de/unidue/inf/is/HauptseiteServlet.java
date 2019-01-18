@@ -34,10 +34,9 @@ public class HauptseiteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		if(!LoginServlet.getAngemeldeterBenutzer().equals(null)) {
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("username") != null) {
-			//session.removeAttribute("username");
+		try {
+			session.getAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 			ArrayList<Anzeige> array = new ArrayList<>();
 			array = anzeigeStore.getAllAnzeige();
@@ -45,7 +44,7 @@ public class HauptseiteServlet extends HttpServlet {
 			anzeigeStore.close();
 			request.setAttribute("result", array);
 			request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
-		}else {
+		}catch(NullPointerException e ) {
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 	}
