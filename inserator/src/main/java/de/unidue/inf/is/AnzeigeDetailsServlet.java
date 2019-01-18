@@ -1,6 +1,6 @@
 package de.unidue.inf.is;
 
-import java.awt.List;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("username") != null) {
+		try {
 			benutzername = (String) session.getAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			id = Integer.parseInt(request.getParameter("id"));
@@ -61,7 +61,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
-		} else {
+		} catch(NullPointerException e) {
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 
