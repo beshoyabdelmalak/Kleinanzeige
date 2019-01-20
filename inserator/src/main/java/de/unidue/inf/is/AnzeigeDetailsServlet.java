@@ -76,7 +76,8 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		AnzeigeStore anzeigeStore = new AnzeigeStore();
 		int id = Integer.parseInt(request.getParameter("id"));
 		String kommentarfield = request.getParameter("kommentarfield");
-		if (null != kommentarfield && !kommentarfield.isEmpty()) {
+		String action = request.getParameter("action");
+		if (null != kommentarfield && !kommentarfield.isEmpty() && action.equals("kommentieren")) {
 			anzeigeStore.addKommentar(kommentarfield);
 			int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
 			anzeigeStore.insertIntoHatKommentar(result, benutzername, id);
@@ -84,22 +85,19 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			anzeigeStore.close();
 			doGet(request, response);
 		} else {
-			if (!erstller.equals(benutzername) && null != request.getParameter("vomKäufer")
-					&& !request.getParameter("vomKäufer").isEmpty()) {
+			if (action.equals("kaufen")) {
 				anzeigeStore.insertIntoKauft(benutzername, id);
 				anzeigeStore.complete();
 				anzeigeStore.close();
 				response.sendRedirect("hauptseite");
 			} else {
-				if (null != request.getParameter("vomVerkäufer") && !request.getParameter("vomVerkäufer").isEmpty()
-						&& request.getParameter("vomVerkäufer").equals("Löschen")) {
+				if (action.equals("löschen")) {
 					anzeigeStore.deleteAnzeigeWithId(id);
 					anzeigeStore.complete();
 					anzeigeStore.close();
 					response.sendRedirect("hauptseite");
 				} else {
-					if (null != request.getParameter("vomVerkäufer") && !request.getParameter("vomVerkäufer").isEmpty()
-							&& request.getParameter("vomVerkäufer").equals("editieren")) {
+					if (action.equals("editieren")) {
 						anzeigeStore.complete();
 						anzeigeStore.close();
 						response.sendRedirect("anzeigeEditieren?id=" + id);
