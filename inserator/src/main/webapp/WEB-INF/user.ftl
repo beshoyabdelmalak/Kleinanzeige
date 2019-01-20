@@ -32,9 +32,10 @@
 	    <#list purchased as anzeige>
     	  <div class= "purchased">
     	  	<h4>${anzeige.getTitel()} </h4>
+    	  	<h3>${anzeige.getText()} </h3>
         	<h4>seit : ${anzeige.getDate()}</h4>
         	<span>Preis : ${anzeige.getPreis()}€</span>
-        	<a href='user?username=${anzeige.getBuyer()}'>${anzeige.getBuyer()}</a>
+        	<a href='user?username=${anzeige.getErsteller()}'>${anzeige.getErsteller()}</a>
         	<br>
         	<br>
         	<hr>

@@ -279,8 +279,8 @@ public final class AnzeigeStore implements Closeable {
     
     public ArrayList<Anzeige> getPurchasedOffers(String username){
     	ArrayList<Anzeige> array = new ArrayList<>();
-    	String query = "select a.titel, a.text, a.preis, a.ersteller, a.status, a.erstellungsdatum, k.benutzername from dbp64.benutzer b join dbp64.anzeige a on"
-    			+ " b.benutzername = a.ersteller join dbp64.kauft k on a.id = k.anzeigeID where k.benutzername = ?";
+    	String query = "select a.titel, a.text, a.preis, a.ersteller, a.status, a.erstellungsdatum from dbp64.benutzer b join dbp64.kauft k on b.benutzername = k.benutzername join dbp64.anzeige a on k.anzeigeID = a.id " + 
+    			"where b.benutzername = ?";
     	try {
 			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, username);
@@ -289,7 +289,6 @@ public final class AnzeigeStore implements Closeable {
 				Anzeige anzeige = new Anzeige(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getString(4),
 						rs.getString(5));
 				anzeige.setDate(rs.getDate(6));
-				anzeige.setBuyer(rs.getString(7));
 				array.add(anzeige);
 				
 			}
