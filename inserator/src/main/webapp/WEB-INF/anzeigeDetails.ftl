@@ -27,21 +27,23 @@ function myFunction() {
        	
        	  
 		 <#if kaeufer == '${anzeige.getErsteller()}'>
-	    	<form action= "anzeigeDetails?id=${anzeige.getId()}" method = "post">
+	    	<form action= "anzeigeDetails?id=${anzeige.getId()}&action=löschen" method = "post">
 				   <input type="submit" name="vomVerkäufer" onclick="myFunction()" value = "Löschen">
+			</form>
+			<form action= "anzeigeDetails?id=${anzeige.getId()}&action=editieren" method = "post">
 				   <#if status == "aktiv   ">
 				   <input type="submit" name="vomVerkäufer" value = "editieren">
 				   </#if>
 			</form>
 		<#else>
 			 <#if status == "aktiv   ">
-				 <form method = "post">
+				 <form action = "anzeigeDetails?id=${anzeige.getId()}&action=kaufen" method = "post">
 					   <input type="submit" name="vomKäufer" onclick="myFunction()" value= 'kaufen'>
 				 </form>
 		     </#if>
 		</#if>
 		
-		 <form action="anzeigeDetails?id=${anzeige.getId()}" method="post" >
+		 <form action="anzeigeDetails?id=${anzeige.getId()}&action=kommentieren" method="post" >
 	        kommentieren: <input type="text" name="kommentarfield" /> <br/>
 		    <input type="submit" value="submit" onclick="myFunction()" />
 		  </form>
