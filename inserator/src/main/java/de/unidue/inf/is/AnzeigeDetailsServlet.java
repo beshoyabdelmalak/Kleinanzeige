@@ -92,6 +92,11 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				response.sendRedirect("hauptseite");
 			} else {
 				if (action.equals("löschen")) {
+					ArrayList<Integer> kommentarIDs = new ArrayList<>();
+					kommentarIDs = anzeigeStore.getkommentarIDsEinerAnzeige(id);
+					for(int k : kommentarIDs) {
+						anzeigeStore.deleteKommentarWithId(k);
+					}
 					anzeigeStore.deleteAnzeigeWithId(id);
 					anzeigeStore.complete();
 					anzeigeStore.close();

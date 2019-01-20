@@ -329,5 +329,38 @@ public final class AnzeigeStore implements Closeable {
             }
         }
     }
+    public ArrayList<Integer> getkommentarIDsEinerAnzeige(int anzeigeID) throws StoreException {
+    	ArrayList<Integer> kommentarIDs = new ArrayList<>();
+        try {
+        	query = "select kommentarID from dbp64.hatkommentar where anzeigeID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+             preparedStatement.setInt(1, anzeigeID);
+             ResultSet rs = preparedStatement.executeQuery();   
+            while(rs.next()) {
+            	kommentarIDs.add(rs.getInt(1));
+			}
+			
+
+        }catch (SQLException e) {
+        	System.out.println("problem bei deleteFromHatKategorie");
+            e.printStackTrace();;
+        }
+        return kommentarIDs;
+    }
+	
+	
+public void deleteKommentarWithId(int id) {
+	   String query = "delete from dbp64.Kommentar where id = ?";
+	   PreparedStatement preparedStatement ;
+	   try {
+		   preparedStatement = connection.prepareStatement(query);
+		   preparedStatement.setInt(1, id);
+		   preparedStatement.executeUpdate();
+		   
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
 
 }
