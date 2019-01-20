@@ -44,6 +44,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		try {
+			
 			benutzername = (String) session.getAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			id = Integer.parseInt(request.getParameter("id"));
@@ -55,11 +56,17 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
 			request.setAttribute("kaeufer", benutzername);
 			request.setAttribute("status", anzeige.getStatus());
-
 			kommentaren = anzeigeStore.getAllKommentaren(id);
 			request.setAttribute("kommentaren", kommentaren);
+
+			if(anzeige.getStatus().contentEquals("verkauft")) {
+				request.setAttribute("gekauftvon", anzeigeStore.getKäufer(id));
+			}else {
+				request.setAttribute("gekauftvon", "");
+			}
 			anzeigeStore.complete();
 			anzeigeStore.close();
+			
 			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
 		} catch(NullPointerException e) {
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
@@ -89,7 +96,8 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 				anzeigeStore.insertIntoKauft(benutzername, id);
 				anzeigeStore.complete();
 				anzeigeStore.close();
-				response.sendRedirect("hauptseite");
+				
+				doGet(request, response);
 			} else {
 				if (action.equals("löschen")) {
 					ArrayList<Integer> kommentarIDs = new ArrayList<>();

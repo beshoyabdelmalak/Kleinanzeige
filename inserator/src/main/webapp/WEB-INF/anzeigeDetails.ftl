@@ -40,8 +40,11 @@ function myFunction() {
 				 <form action = "anzeigeDetails?id=${anzeige.getId()}&action=kaufen" method = "post">
 					   <input type="submit" name="vomKäufer" onclick="myFunction()" value= 'kaufen'>
 				 </form>
+			 <#else>
+			 	 <p>gekauft von : ${gekauftvon}</p>
 		     </#if>
 		</#if>
+		
 		
 		 <form action="anzeigeDetails?id=${anzeige.getId()}&action=kommentieren" method="post" >
 	        kommentieren: <input type="text" name="kommentarfield" /> <br/>

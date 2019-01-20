@@ -173,7 +173,7 @@ public final class AnzeigeStore implements Closeable {
    
    public ArrayList<Kommentar> getAllKommentaren(int id){
 	   ArrayList<Kommentar> kommentaren = new ArrayList<>();
-	   query = "select k.text, hk.benutzername from dbp64.kommentar k join dbp64.hatkommentar hk on k.id = hk.kommentarID  where hk.anzeigeid = ?"
+	   query = "select k.text, hk.benutzername, k.erstellungsdatum from dbp64.kommentar k join dbp64.hatkommentar hk on k.id = hk.kommentarID  where hk.anzeigeid = ? order by k.erstellungsdatum"
 ;
 	   try {
 		PreparedStatement pstmt=  connection.prepareStatement(query);
@@ -228,6 +228,23 @@ public final class AnzeigeStore implements Closeable {
 		}
 	   	return anzeige;
    }
+   public String getKäufer(int id) {
+	   	String query = "select benutzername from dbp64.kauft where anzeigeID = ?";
+	   	PreparedStatement preparedStatement;
+	   	String käufer = "";
+	   	try {
+		     preparedStatement = connection.prepareStatement(query);
+		     preparedStatement.setInt(1, id);
+		     ResultSet rs = preparedStatement.executeQuery();
+		     while(rs.next()) {
+		    	käufer = rs.getString(1);
+		     }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   	return käufer;
+  }
 
 
     public void insertIntoHatKategorie(int id, String nameOfkategorie) throws StoreException {
