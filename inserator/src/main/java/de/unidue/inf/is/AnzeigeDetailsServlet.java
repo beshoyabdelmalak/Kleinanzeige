@@ -69,6 +69,9 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
 		} catch(NullPointerException e) {
+			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 
@@ -80,11 +83,11 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		AnzeigeStore anzeigeStore = new AnzeigeStore();
 		int id = Integer.parseInt(request.getParameter("id"));
 		String kommentarfield = request.getParameter("kommentarfield");
 		String action = request.getParameter("action");
 		if (null != kommentarfield && !kommentarfield.isEmpty() && action.equals("kommentieren")) {
+			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			anzeigeStore.addKommentar(kommentarfield);
 			int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
 			anzeigeStore.insertIntoHatKommentar(result, benutzername, id);
@@ -93,13 +96,21 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			doGet(request, response);
 		} else {
 			if (action.equals("kaufen")) {
-				anzeigeStore.insertIntoKauft(benutzername, id);
-				anzeigeStore.complete();
-				anzeigeStore.close();
-				
-				doGet(request, response);
+				AnzeigeStore anzeigeStore = new AnzeigeStore();
+				if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv   ")) {
+					anzeigeStore.insertIntoKauft(benutzername, id);
+					anzeigeStore.complete();
+					anzeigeStore.close();
+					doGet(request, response);
+				}else{
+					request.setAttribute("message", "die Anzeige ist leider schon verkauft");
+					request.setAttribute("hauptseite", "hauptseite");
+					request.setAttribute("melde", "");
+					request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+				}
 			} else {
 				if (action.equals("löschen")) {
+					AnzeigeStore anzeigeStore = new AnzeigeStore();
 					ArrayList<Integer> kommentarIDs = new ArrayList<>();
 					kommentarIDs = anzeigeStore.getkommentarIDsEinerAnzeige(id);
 					for(int k : kommentarIDs) {
@@ -111,8 +122,6 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 					response.sendRedirect("hauptseite");
 				} else {
 					if (action.equals("editieren")) {
-						anzeigeStore.complete();
-						anzeigeStore.close();
 						response.sendRedirect("anzeigeEditieren?id=" + id);
 
 					} else {

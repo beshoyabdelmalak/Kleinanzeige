@@ -8,6 +8,24 @@
   <body>
   	<a href="logout" title="Abmelden">Abmelden  </a>
   	<a href="anzeigeErstellen">Anzeige Erstellen</a>
+  	<form action="hauptseite">
+	  <select name = "sort">
+	    <option value="" disabled selected>Sortieren nach</option>
+	    <option value="titel">Titel</option>
+	    <option value="erstellungsdatum">Erstellungsdatum</option>
+	  </select>
+	  <input type="submit">
+	</form>
+	<form action="hauptseite">
+	  <select name = "sort">
+	    <option value="" disabled selected>Kategorie auswählen</option>
+	    <option value="Digitale Waren">Digitale Waren</option>
+	    <option value="Haus & Garten">Haus & Garten</option>
+	    <option value="Mode & Kosmetik">Mode & Kosmetik</option>
+	    <option value="Multimedia & Elektronik">Multimedia & Elektronik</option>
+	  </select>
+	  <input type="submit">
+	</form>
     <div class ="show" >
 	    <#list result as anzeige>
     	  <div class="column">

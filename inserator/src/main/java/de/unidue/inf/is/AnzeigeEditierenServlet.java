@@ -68,6 +68,9 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("/anzeigeEditieren.ftl").forward(request, response);
 		} catch(NullPointerException e) {
+			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 
@@ -85,17 +88,25 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 		String text = request.getParameter("Text");
 		float preis = Float.valueOf(request.getParameter("Preis"));
 		String[] kategorien = request.getParameterValues("chk[]");
-
-		Anzeige anzeige = new Anzeige(id, titel, text, preis);
-		AnzeigeStore anzeigeStore = new AnzeigeStore();
-		anzeigeStore.updateAnzeige(anzeige);
-		anzeigeStore.deleteFromHatKategorie(id);
-		for (String k : kategorien) {
-			anzeigeStore.insertIntoHatKategorie(id, k);
+		if(titel.length() <= 100 && preis >= 0 && kategorien.length >= 0) {
+			Anzeige anzeige = new Anzeige(id, titel, text, preis);
+			AnzeigeStore anzeigeStore = new AnzeigeStore();
+			anzeigeStore.updateAnzeige(anzeige);
+			anzeigeStore.deleteFromHatKategorie(id);
+			for (String k : kategorien) {
+				anzeigeStore.insertIntoHatKategorie(id, k);
+			}
+			anzeigeStore.complete();
+			anzeigeStore.close();
+			doGet(request, response);
+		}else {
+			request.setAttribute("message",
+					"Fehler aufgetreten, möglicher Fehler ist dass Sie gar keine oder mehr als 100 Zeichen\n"
+							+ ", negativen Preis eingegeben\n  ,oder keine Kategorien ausgewählt haben");
+			request.setAttribute("hauptseite", "hauptseite");
+			request.setAttribute("melde", "");
+			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
-		anzeigeStore.complete();
-		anzeigeStore.close();
-		doGet(request, response);
 	}
 
 }

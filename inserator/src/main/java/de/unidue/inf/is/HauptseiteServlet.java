@@ -35,12 +35,17 @@ public class HauptseiteServlet extends HttpServlet {
 			session.getAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 			ArrayList<Anzeige> array = new ArrayList<>();
-			array = anzeigeStore.getAllAnzeige();
+			String sort = request.getParameter("sort");
+			if(sort != null && !sort.isEmpty()) array = anzeigeStore.getAllAnzeige(sort);
+			else array = anzeigeStore.getAllAnzeige("");
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			request.setAttribute("result", array);
 			request.getRequestDispatcher("/hauptseite.ftl").forward(request, response);
 		}catch(NullPointerException e ) {
+			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 	}

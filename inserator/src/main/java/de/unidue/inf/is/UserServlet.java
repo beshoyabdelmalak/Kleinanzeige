@@ -50,6 +50,7 @@ public final class UserServlet extends HttpServlet {
 		    request.setAttribute("purchased", purchased);
 		    request.getRequestDispatcher("/user.ftl").forward(request, response);
 		}else {
+			request.setAttribute("message", "fehler ist aufgetreten");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
     }
