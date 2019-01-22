@@ -11,13 +11,12 @@
   	<form action="hauptseite">
 	  <select name = "sort">
 	    <option value="" disabled selected>Sortieren nach</option>
-	    <option value="titel">Titel</option>
-	    <option value="erstellungsdatum">Erstellungsdatum</option>
+	    <option value="Titel aufsteigend">Titel aufsteigend</option>
+	    <option value="Titel absteigend">Titel absteigend</option>
+	    <option value="Erstellungsdatum aufsteigend">Erstellungsdatum aufsteigend</option>
+	    <option value="Erstellungsdatum absteigend">Erstellungsdatum absteigend</option>
 	  </select>
-	  <input type="submit">
-	</form>
-	<form action="hauptseite">
-	  <select name = "sort">
+	  <select name = "filter">
 	    <option value="" disabled selected>Kategorie auswählen</option>
 	    <option value="Digitale Waren">Digitale Waren</option>
 	    <option value="Haus & Garten">Haus & Garten</option>

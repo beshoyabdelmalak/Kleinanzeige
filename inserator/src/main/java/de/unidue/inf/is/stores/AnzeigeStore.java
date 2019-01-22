@@ -150,11 +150,17 @@ public final class AnzeigeStore implements Closeable {
 	public ArrayList<Anzeige> getAllAnzeige(String nachwas) {
 		ArrayList<Anzeige> array = new ArrayList<>();
 		switch (nachwas) {
-		case "titel":
+		case "Titel absteigend":
+			query = "select * from dbp64.anzeige where status = 'aktiv' order by titel desc";
+			break;
+		case "Titel aufsteigend":
 			query = "select * from dbp64.anzeige where status = 'aktiv' order by titel asc";
 			break;
-		case "erstellungsdatum":
+		case "Erstellungsdatum absteigend":
 			query = "select * from dbp64.anzeige where status = 'aktiv' order by erstellungsdatum desc";
+			break;
+		case "Erstellungsdatum aufsteigend":
+			query = "select * from dbp64.anzeige where status = 'aktiv' order by erstellungsdatum asc";
 			break;
 		case "Digitale Waren":
 			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Digitale Waren'";
@@ -167,6 +173,54 @@ public final class AnzeigeStore implements Closeable {
 			break;
 		case "Multimedia & Elektronik":
 			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Multimedia & Elektronik'";
+			break;
+		case "Titel absteigendDigitale Waren":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Digitale Waren' order by a.titel desc";
+			break;
+		case "Titel absteigendHaus & Garten":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Haus & Garten' order by a.titel desc";
+			break;
+		case "Titel absteigendMode & Kosmetik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Mode & Kosmetik' order by a.titel desc";
+			break;
+		case "Titel absteigendMultimedia & Elektronik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Multimedia & Elektronik' order by a.titel desc";
+			break;
+		case "Titel aufsteigendDigitale Waren":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Digitale Waren' order by a.titel asc";
+			break;
+		case "Titel aufsteigendHaus & Garten":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Haus & Garten' order by a.titel asc";
+			break;
+		case "Titel aufsteigendMode & Kosmetik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Mode & Kosmetik' order by a.titel asc";
+			break;
+		case "Titel aufsteigendMultimedia & Elektronik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Multimedia & Elektronik' order by a.titel asc";
+			break;
+		case "Erstellungsdatum aufsteigendDigitale Waren":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Digitale Waren' order by a.erstellungsdatum asc";
+			break;
+		case "Erstellungsdatum aufsteigendHaus & Garten":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Haus & Garten' order by a.erstellungsdatum asc";
+			break;
+		case "Erstellungsdatum aufsteigendMode & Kosmetik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Mode & Kosmetik' order by a.erstellungsdatum asc";
+			break;
+		case "Erstellungsdatum aufsteigendMultimedia & Elektronik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Multimedia & Elektronik' order by a.erstellungsdatum asc";
+			break;
+		case "Erstellungsdatum absteigendDigitale Waren":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Digitale Waren' order by a.erstellungsdatum desc";
+			break;
+		case "Erstellungsdatum absteigendHaus & Garten":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Haus & Garten' order by a.erstellungsdatum desc";
+			break;
+		case "Erstellungsdatum absteigendMode & Kosmetik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Mode & Kosmetik' order by a.erstellungsdatum desc";
+			break;
+		case "Erstellungsdatum absteigendMultimedia & Elektronik":
+			query = "select a.id, a.titel, a.text, a.preis, a.erstellungsdatum, a.ersteller, a.status  from dbp64.anzeige a join dbp64.HatKategorie h on a.id = h.anzeigeID where a.status = 'aktiv' and h.kategorie = 'Multimedia & Elektronik' order by a.erstellungsdatum desc";
 			break;
 		default:
 			query = "select * from dbp64.anzeige where status = 'aktiv'";
@@ -313,8 +367,7 @@ public final class AnzeigeStore implements Closeable {
 
 	public ArrayList<Anzeige> getPurchasedOffers(String username) {
 		ArrayList<Anzeige> array = new ArrayList<>();
-		String query = "select a.titel, a.text, a.preis, a.ersteller, a.status, a.erstellungsdatum from dbp64.benutzer b join dbp64.kauft k on b.benutzername = k.benutzername join dbp64.anzeige a on k.anzeigeID = a.id "
-				+ "where b.benutzername = ?";
+		String query = "select a.titel, a.text, a.preis, a.ersteller, a.status, a.erstellungsdatum from dbp64.benutzer b join dbp64.kauft k on b.benutzername = k.benutzername join dbp64.anzeige a on k.anzeigeID = a.id where b.benutzername = ?";
 		try {
 			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, username);

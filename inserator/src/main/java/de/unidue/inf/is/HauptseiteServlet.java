@@ -35,8 +35,17 @@ public class HauptseiteServlet extends HttpServlet {
 			session.getAttribute("username");
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 			ArrayList<Anzeige> array = new ArrayList<>();
+			String filter = request.getParameter("filter");
 			String sort = request.getParameter("sort");
-			if(sort != null && !sort.isEmpty()) array = anzeigeStore.getAllAnzeige(sort);
+			String nachwas = "";
+			if(sort != null && filter != null) {
+				 nachwas = sort + filter;
+			}else {
+				if(filter == null) nachwas = sort;
+				else nachwas = filter;
+			}
+			System.out.println(nachwas);
+			if(nachwas != null && !nachwas.isEmpty()) array = anzeigeStore.getAllAnzeige(nachwas);
 			else array = anzeigeStore.getAllAnzeige("");
 			anzeigeStore.complete();
 			anzeigeStore.close();
@@ -47,6 +56,7 @@ public class HauptseiteServlet extends HttpServlet {
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+			e.printStackTrace();
 		}
 	}
 
