@@ -99,7 +99,8 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		} else {
 			if (action.equals("kaufen")) {
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
-				if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv")) {
+				if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv   ")) {
+					//Achtung lösche das leere String nach aktiv nicht, das ist teil der Implemetierung
 					anzeigeStore.insertIntoKauft(benutzername, id);
 					anzeigeStore.complete();
 					anzeigeStore.close();
