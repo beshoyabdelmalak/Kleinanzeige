@@ -22,9 +22,16 @@ public final class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Put the user list in request and let freemarker paint it.
        HttpSession session = request.getSession(false);
-       if(session.getAttribute("username") != null)
+       try{
     	   session.removeAttribute("username");
-       response.sendRedirect("login");
+    	   session.invalidate();
+    	   response.sendRedirect("login");
+       }catch(Exception e) {
+    	   request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
+    	   request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+       }
     }
 
 

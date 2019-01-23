@@ -41,11 +41,15 @@ public class HauptseiteServlet extends HttpServlet {
 			if(sort != null && filter != null) {
 				 nachwas = sort + filter;
 			}else {
-				if(filter == null) nachwas = sort;
-				else nachwas = filter;
+				if(filter == null) 
+					nachwas = sort;
+				else 
+					nachwas = filter;
 			}
-			if(nachwas != null && !nachwas.isEmpty()) array = anzeigeStore.getAllAnzeige(nachwas);
-			else array = anzeigeStore.getAllAnzeige("");
+			if(nachwas != null && !nachwas.isEmpty()) 
+				array = anzeigeStore.getAllAnzeige(nachwas);
+			else 
+				array = anzeigeStore.getAllAnzeige("");
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			request.setAttribute("result", array);
@@ -55,7 +59,7 @@ public class HauptseiteServlet extends HttpServlet {
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 

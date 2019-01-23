@@ -1,6 +1,8 @@
 package de.unidue.inf.is.domain;
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Anzeige {
 	private int id;
 	private String titel;
@@ -47,7 +49,7 @@ public class Anzeige {
 		this.id = id;
 	}
 	public String getTitel() {
-		return titel;
+		return StringUtils.capitalize(titel);
 	}
 	public void setTitel(String titel) {
 		this.titel = titel;

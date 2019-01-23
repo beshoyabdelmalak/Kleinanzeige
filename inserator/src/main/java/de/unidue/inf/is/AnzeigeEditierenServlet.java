@@ -100,7 +100,7 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 			}
 			anzeigeStore.complete();
 			anzeigeStore.close();
-			doGet(request, response);
+			//doGet(request, response);
 		}else {
 			request.setAttribute("message",
 					"Fehler aufgetreten, möglicher Fehler ist dass Sie gar keine oder mehr als 100 Zeichen\n"

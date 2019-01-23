@@ -16,7 +16,7 @@ function myFunction() {
      <a href="logout" title="Abmelden">Abmelden  </a>
      <a href="hauptseite" title="zurück in Hauptseite"> Hauptseite  </a>
   <h1> Anzeige Details </h1>
-	<#list anzeigeDeteils as anzeige>
+	
         <strong>${anzeige.getTitel()}</strong>
         <p>Beschreibung : ${anzeige.getText()}</p>
         <p>Status : ${anzeige.getStatus()}</p>
@@ -61,7 +61,7 @@ function myFunction() {
 		     </tr>
 		     </#list>
 	     </table>
-     </#list>
+     
      
      
 

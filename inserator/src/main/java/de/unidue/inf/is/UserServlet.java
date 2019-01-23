@@ -27,9 +27,10 @@ public final class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession(false);
-		if (session.getAttribute("username") != null) {
+    	try{
+    		session.getAttribute("username"); 
 		    String username = request.getParameter("username");
-		    
+		   
 		    //get the user information
 		    UserStore userStore = new UserStore();
 		    User user = userStore.getUser(username);
@@ -49,8 +50,10 @@ public final class UserServlet extends HttpServlet {
 		    ArrayList<Anzeige> purchased = anzeigeStore.getPurchasedOffers(username);
 		    request.setAttribute("purchased", purchased);
 		    request.getRequestDispatcher("/user.ftl").forward(request, response);
-		}else {
-			request.setAttribute("message", "fehler ist aufgetreten");
+		}catch (Exception e) {
+			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
     }

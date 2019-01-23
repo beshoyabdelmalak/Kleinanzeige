@@ -18,7 +18,7 @@
   		<h2>Angeboten</h2>
 	    <#list result as anzeige>
     	  <div class="column">
-    	  	<h4>${anzeige.getTitel()} </h4>
+    	  	<h4><a href="anzeigeDetails?id=${anzeige.getId()}" >${anzeige.getTitel()} </a></h4>
         	<h4>seit : ${anzeige.getDate()}</h4>
         	<hr>
         	<span>Preis : ${anzeige.getPreis()}€</span>

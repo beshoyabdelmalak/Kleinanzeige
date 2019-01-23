@@ -53,9 +53,9 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			anzeige = anzeigeStore.getAnzeige(id);
 			erstller = anzeige.getErsteller();
 
-			ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
-			anzeigeZuAnzeige.add(anzeige);
-			request.setAttribute("anzeigeDeteils", anzeigeZuAnzeige);
+			//ArrayList<Anzeige> anzeigeZuAnzeige = new ArrayList<>();
+			//anzeigeZuAnzeige.add(anzeige);
+			request.setAttribute("anzeige", anzeige);
 			request.setAttribute("kaeufer", benutzername);
 			request.setAttribute("status", anzeige.getStatus());
 			kommentaren = anzeigeStore.getAllKommentaren(id);
@@ -99,7 +99,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		} else {
 			if (action.equals("kaufen")) {
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
-				if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv   ")) {
+				if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv")) {
 					anzeigeStore.insertIntoKauft(benutzername, id);
 					anzeigeStore.complete();
 					anzeigeStore.close();
