@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.stores.AnzeigeStore;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 /**
  * Einfaches Beispiel, das die Vewendung der Template-Engine zeigt.
@@ -41,8 +42,8 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// TODO den Teil von zeile 54 bis 67 hab ich noch nicht probiert
-		String titel = request.getParameter("Titel");
-		String text = request.getParameter("Text");
+		String titel = escapeHtml(request.getParameter("Titel"));
+		String text = escapeHtml(request.getParameter("Text"));
 		float preis = Float.valueOf(request.getParameter("Preis"));
 		String[] kategorien = request.getParameterValues("chk[]");
 		if (titel.length() <= 100 && preis >= 0 && kategorien.length >= 0) {

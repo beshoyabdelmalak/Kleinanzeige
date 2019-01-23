@@ -1,6 +1,7 @@
 package de.unidue.inf.is;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.stores.AnzeigeStore;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 /**
  * Servlet implementation class anzeigeEditierenServlet
@@ -84,8 +86,8 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		id = Integer.parseInt(request.getParameter("id"));
-		String titel = request.getParameter("Titel");
-		String text = request.getParameter("Text");
+		String titel = escapeHtml(request.getParameter("Titel"));
+		String text = escapeHtml(request.getParameter("Text"));
 		float preis = Float.valueOf(request.getParameter("Preis"));
 		String[] kategorien = request.getParameterValues("chk[]");
 		if(titel.length() <= 100 && preis >= 0 && kategorien.length >= 0) {

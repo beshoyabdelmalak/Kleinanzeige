@@ -1,19 +1,17 @@
 package de.unidue.inf.is.stores;
 
-import java.io.Closeable;
+import java.io.Closeable; 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.Kommentar;
-import de.unidue.inf.is.domain.Kategorie;
-import de.unidue.inf.is.domain.User;
+
 import de.unidue.inf.is.utils.DBUtil;
 
 public final class AnzeigeStore implements Closeable {

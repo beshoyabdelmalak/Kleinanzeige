@@ -1,7 +1,7 @@
 <html>
 <head>
 	
-<meta http-equiv="refresh" content="20" >
+<!--<meta http-equiv="refresh" content="20" >-->
 <title>Anzeige Details</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 <script>

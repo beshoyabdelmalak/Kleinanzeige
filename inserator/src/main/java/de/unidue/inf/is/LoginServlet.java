@@ -1,7 +1,7 @@
 package de.unidue.inf.is;
 
 import java.io.IOException;
-import java.security.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.net.ntp.TimeStamp;
-
-import de.unidue.inf.is.domain.Anzeige;
-import de.unidue.inf.is.domain.User;
-import de.unidue.inf.is.stores.AnzeigeStore;
 import de.unidue.inf.is.stores.UserStore;
 
 

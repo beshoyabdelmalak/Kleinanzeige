@@ -2,6 +2,7 @@ package de.unidue.inf.is;
 
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.domain.Kommentar;
 
 import de.unidue.inf.is.stores.AnzeigeStore;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 /**
  * Servlet implementation class AnzeigeDetaeisServlet
@@ -84,7 +86,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		String kommentarfield = request.getParameter("kommentarfield");
+		String kommentarfield = escapeHtml(request.getParameter("kommentarfield"));
 		String action = request.getParameter("action");
 		if (null != kommentarfield && !kommentarfield.isEmpty() && action.equals("kommentieren")) {
 			AnzeigeStore anzeigeStore = new AnzeigeStore();

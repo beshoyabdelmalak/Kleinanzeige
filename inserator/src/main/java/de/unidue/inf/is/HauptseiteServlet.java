@@ -44,7 +44,6 @@ public class HauptseiteServlet extends HttpServlet {
 				if(filter == null) nachwas = sort;
 				else nachwas = filter;
 			}
-			System.out.println(nachwas);
 			if(nachwas != null && !nachwas.isEmpty()) array = anzeigeStore.getAllAnzeige(nachwas);
 			else array = anzeigeStore.getAllAnzeige("");
 			anzeigeStore.complete();
