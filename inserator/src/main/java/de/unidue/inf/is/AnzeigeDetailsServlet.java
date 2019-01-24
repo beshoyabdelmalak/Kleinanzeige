@@ -61,16 +61,18 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			kommentaren = anzeigeStore.getAllKommentaren(id);
 			request.setAttribute("kommentaren", kommentaren);
 
-			if(anzeige.getStatus().contentEquals("verkauft")) {
-				request.setAttribute("gekauftvon", anzeigeStore.getKäufer(id));
-			}else {
-				request.setAttribute("gekauftvon", "");
-			}
+			if(anzeige.getStatus().contentEquals("verkauft")) request.setAttribute("gekauftvon", anzeigeStore.getKäufer(id));
+			// wenn die Anzeige gekauft wurde und einen Zugriff darauf gehabt wurde wird der Käufer auch angezeigt
+			else request.setAttribute("gekauftvon", "");
+			//gekauft von wird nur angezeigt, wenn die Anzeige schon verkauft wurde, ob sie verkauft oder nicht, wurde das in FTL 
+			//Datei behandelt durch die FTL_variable status in der zeile 60
+			
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			
 			request.getRequestDispatcher("/anzeigeDetails.ftl").forward(request, response);
 		} catch(NullPointerException e) {
+			//Fehler behandlung, wenn ein Fremder einen Zugriff auf eine Seite, auf die er keinen zugriff hat
 			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
@@ -85,9 +87,12 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// wem welche Tasten angezeigt werden müßen, wurde das in der entsprechnden FTL-Datei behandelt mit hilfe von Variable Status
+		//in der zeile 60 und die variable kaeufer in der zeile 59
 		int id = Integer.parseInt(request.getParameter("id"));
 		String kommentarfield = escapeHtml(request.getParameter("kommentarfield"));
 		String action = request.getParameter("action");
+		//action ist eine variable kommt per url von html, definiert welche tast gedrückt wurde 
 		if (null != kommentarfield && !kommentarfield.isEmpty() && action.equals("kommentieren")) {
 			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			anzeigeStore.addKommentar(kommentarfield);
@@ -106,6 +111,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 					anzeigeStore.close();
 					doGet(request, response);
 				}else{
+					//Fehler behndlung wenn 2 gleichzeitig die selbe Anzeige kaufen gedrückt haben
 					request.setAttribute("message", "die Anzeige ist leider schon verkauft");
 					request.setAttribute("hauptseite", "hauptseite");
 					request.setAttribute("melde", "");
@@ -137,3 +143,4 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	}
 
 }
+
