@@ -85,30 +85,43 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		id = Integer.parseInt(request.getParameter("id"));
-		String titel = escapeHtml(request.getParameter("Titel"));
-		String text = escapeHtml(request.getParameter("Text"));
-		float preis = Float.valueOf(request.getParameter("Preis"));
-		String[] kategorien = request.getParameterValues("chk[]");
-		if(titel.length() <= 100 && preis >= 0 && kategorien.length >= 0) {
-			Anzeige anzeige = new Anzeige(id, titel, text, preis);
-			AnzeigeStore anzeigeStore = new AnzeigeStore();
-			anzeigeStore.updateAnzeige(anzeige);
-			anzeigeStore.deleteFromHatKategorie(id);
-			for (String k : kategorien) {
-				anzeigeStore.insertIntoHatKategorie(id, k);
+		try {
+			id = Integer.parseInt(request.getParameter("id"));
+			String titel = escapeHtml(request.getParameter("Titel"));
+			String text = escapeHtml(request.getParameter("Text"));
+			float preis = Float.valueOf(request.getParameter("Preis"));
+			String[] kategorien = request.getParameterValues("chk[]");
+			if (titel.length() <= 100 && !titel.isEmpty() && !text.isEmpty() && preis >= 0 && kategorien != null
+					&& kategorien.length > 0 && preis < 1000) {
+				Anzeige anzeige = new Anzeige(id, titel, text, preis);
+				AnzeigeStore anzeigeStore = new AnzeigeStore();
+				anzeigeStore.updateAnzeige(anzeige);
+				anzeigeStore.deleteFromHatKategorie(id);
+				for (String k : kategorien) {
+					anzeigeStore.insertIntoHatKategorie(id, k);
+				}
+				anzeigeStore.complete();
+				anzeigeStore.close();
+				response.sendRedirect("hauptseite");
+			}else {
+
+				request.setAttribute("message",
+						"Fehler aufgetreten!! möglicher Fehler ist dass Sie gar keine oder mehr als 100 Zeichen als Titel"
+								+ ", negativen Preis eingegeben"
+								+ ", leere Felder gelassen "
+								+ ",oder gar keine Kategorien für Ihre Anzeige ausgewählt haben");
+				request.setAttribute("hauptseite", "hauptseite");
+				request.setAttribute("melde", "");
+				request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 			}
-			anzeigeStore.complete();
-			anzeigeStore.close();
-			//doGet(request, response);
-		}else {
+		}catch (NumberFormatException e) {
 			request.setAttribute("message",
-					"Fehler aufgetreten, möglicher Fehler ist dass Sie gar keine oder mehr als 100 Zeichen\n"
-							+ ", negativen Preis eingegeben\n  ,oder keine Kategorien ausgewählt haben");
+					"Sie haben entweder eine Folge von Zeichen als Preis oder gar keinen Preis eingegeben !!");
 			request.setAttribute("hauptseite", "hauptseite");
 			request.setAttribute("melde", "");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
+
 	}
 
 }

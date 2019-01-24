@@ -243,7 +243,7 @@ public final class AnzeigeStore implements Closeable {
 
 	public ArrayList<Kommentar> getAllKommentaren(int id) {
 		ArrayList<Kommentar> kommentaren = new ArrayList<>();
-		query = "select k.text, hk.benutzername, k.erstellungsdatum from dbp64.kommentar k join dbp64.hatkommentar hk on k.id = hk.kommentarID  where hk.anzeigeid = ? order by k.erstellungsdatum";
+		query = "select k.text, hk.benutzername, k.erstellungsdatum from dbp64.kommentar k join dbp64.hatkommentar hk on k.id = hk.kommentarID  where hk.anzeigeid = ? order by k.erstellungsdatum asc";
 		try {
 			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setInt(1, id);

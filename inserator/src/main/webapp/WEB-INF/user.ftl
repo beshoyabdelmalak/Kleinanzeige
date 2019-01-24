@@ -6,6 +6,7 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <a href="hauptseite" title="zurück in Hauptseite"> Hauptseite  </a>
   	<div class="user_information">
   		<h1>Profile von ${username}</h1>
   		<h3>${name}</h3>

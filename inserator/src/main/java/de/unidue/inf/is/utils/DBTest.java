@@ -15,14 +15,9 @@ public class DBTest {
 	private static String  query = "insert into dbp64.anzeige (titel, text, preis, ersteller, status) values (?,?,?,?,?)";
 	public static void main(String args[]) {
 
-        try {
-            connection = DBUtil.getExternalConnection("project");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Anzeige a = new Anzeige("reebok mid schuh", "schuhe", 56, "BillGates", "aktiv");
-        getIDofInsertedQ(a);
+        String s = "jngjekrbgjek";
+        String a = "jngjekrbgjek";
+        if(s==a) System.out.println("equakls");
 
 
 	}
