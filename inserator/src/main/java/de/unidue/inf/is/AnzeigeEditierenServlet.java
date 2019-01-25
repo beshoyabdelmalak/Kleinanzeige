@@ -21,8 +21,6 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 @WebServlet("/anzeigeEditierenServlet")
 public class AnzeigeEditierenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String benutzername;
-	private int id;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,8 +35,9 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		try{
-			benutzername = (String) session.getAttribute("benutzername");
-			id = Integer.parseInt(request.getParameter("id"));
+			String benutzername = (String) session.getAttribute("benutzername");
+			//----Alte Daten vom Datenbank importiert um in den entsprechneden Felder zu zeigen----
+			int id = Integer.parseInt(request.getParameter("id"));
 			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			Anzeige anzeige = anzeigeStore.getAnzeige(id);
 			request.setAttribute("valueOfTitel", anzeige.getTitel());
@@ -49,8 +48,10 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			for (int i = 1; i < 5; i++)
+				//die schleife wird benötigt um die Variablen in html zu initialisieren!!
 				request.setAttribute("valueOfchk" + i + "", "");
 			for (String d : kategorien) {
+				//die schleife wird hier benötigt um die echte Felder zu kreuzen
 				switch (d) {
 				case "Digitale Waren":
 					request.setAttribute("valueOfchk1", "checked");
@@ -84,28 +85,28 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
 		try {
-			benutzername = (String) session.getAttribute("benutzername");
-			id = Integer.parseInt(request.getParameter("id"));
+			//----Neue Werte nehmen
+			int id = Integer.parseInt(request.getParameter("id"));
 			String titel = escapeHtml(request.getParameter("Titel"));
 			String text = escapeHtml(request.getParameter("Text"));
 			float preis = Float.valueOf(request.getParameter("Preis"));
 			String[] kategorien = request.getParameterValues("chk[]");
 			if (titel.length() <= 100 && !titel.isEmpty() && !text.isEmpty() && preis >= 0 && kategorien != null
 					&& kategorien.length > 0 && preis < 1000) {
+				// wenn alles in Ordnung ist, die werte eintragen
 				Anzeige anzeige = new Anzeige(id, titel, text, preis);
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
-				anzeigeStore.updateAnzeige(anzeige);
-				anzeigeStore.deleteFromHatKategorie(id);
+				anzeigeStore.updateAnzeige(anzeige);//Anzeigedaten werden editert
+				anzeigeStore.deleteFromHatKategorie(id);//die dazugehörige Kategorien gelöscht
 				for (String k : kategorien) {
-					anzeigeStore.insertIntoHatKategorie(id, k);
+					anzeigeStore.insertIntoHatKategorie(id, k);//die neue Kategorien hinzugefügt
 				}
 				anzeigeStore.complete();
 				anzeigeStore.close();
 				response.sendRedirect("hauptseite");
 			}else {
-
+				//Fehlerbehandlung im Fall "message"
 				request.setAttribute("message",
 						"Fehler aufgetreten!! möglicher Fehler ist dass Sie gar keine oder mehr als 100 Zeichen als Titel"
 								+ ", negativen Preis eingegeben"
@@ -116,16 +117,11 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 				request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 			}
 		}catch (NumberFormatException e) {
+			//Fehlerbehandlung im Fall "message"
 			request.setAttribute("message",
 					"Sie haben entweder eine Folge von Zeichen als Preis oder gar keinen Preis eingegeben !!");
 			request.setAttribute("hauptseite", "hauptseite");
 			request.setAttribute("melde", "");
-			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
-		}catch (NullPointerException e) {
-			request.setAttribute("message",
-					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
-			request.setAttribute("hauptseite", "");
-			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 

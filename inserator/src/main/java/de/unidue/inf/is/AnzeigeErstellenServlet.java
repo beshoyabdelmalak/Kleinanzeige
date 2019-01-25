@@ -13,21 +13,19 @@ import de.unidue.inf.is.domain.Anzeige;
 import de.unidue.inf.is.stores.AnzeigeStore;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
-/**
- * Einfaches Beispiel, das die Vewendung der Template-Engine zeigt.
- */
+
+
 public final class AnzeigeErstellenServlet extends HttpServlet {
-	private String benutzername;
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Put the user list in request and let freemarker paint it.
+
 		HttpSession session = request.getSession(false);
 		try {
-			benutzername = (String) session.getAttribute("benutzername");
+			String benutzername = (String) session.getAttribute("benutzername");
 			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
 		} catch (NullPointerException e) {
 			request.setAttribute("message",
@@ -43,19 +41,21 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		try {
-			benutzername = (String) session.getAttribute("benutzername");
-			// TODO den Teil von zeile 54 bis 67 hab ich noch nicht probiert
+			String benutzername = (String) session.getAttribute("benutzername");
+			//Werte vom user nehmen
 			String titel = escapeHtml(request.getParameter("Titel"));
 			String text = escapeHtml(request.getParameter("Text"));
 			float preis = Float.valueOf(request.getParameter("Preis"));
 			String[] kategorien = request.getParameterValues("chk[]");
 			if (titel.length() <= 100 && !titel.isEmpty() && !text.isEmpty() && preis >= 0 && kategorien != null
 					&& kategorien.length > 0 && preis < 1000) {
+				//wenn die werte bestimmte Kriterien entspricht, werden in der Datenbank eingetragen
 				Anzeige anzeige = new Anzeige(titel, text, preis, benutzername, "aktiv");
 				AnzeigeStore anzeigeStore = new AnzeigeStore();
 				anzeigeStore.addAnzeige(anzeige);
 				int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.anzeige a ");
 				for (String k : kategorien) {
+					//die vom Benutzer ausgewählte Kategorien eintragen
 					anzeigeStore.insertIntoHatKategorie(result, k);
 				}
 				anzeigeStore.complete();
@@ -78,12 +78,6 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 					"Sie haben entweder eine Folge von Zeichen als Preis oder gar keinen Preis eingegeben !!");
 			request.setAttribute("hauptseite", "hauptseite");
 			request.setAttribute("melde", "");
-			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
-		}catch (NullPointerException e) {
-			request.setAttribute("message",
-					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
-			request.setAttribute("hauptseite", "");
-			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 	}

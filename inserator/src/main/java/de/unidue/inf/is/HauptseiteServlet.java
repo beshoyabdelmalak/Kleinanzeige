@@ -42,6 +42,7 @@ public class HauptseiteServlet extends HttpServlet {
 			if(sort != null && filter != null) {
 				 nachwas = sort + filter;
 			}else {
+				// in diesem else wird geprüft, ob nur sort oder nur filter ausgewählt
 				if(filter == null) 
 					nachwas = sort;
 				else 
@@ -50,8 +51,7 @@ public class HauptseiteServlet extends HttpServlet {
 			if(nachwas != null && !nachwas.isEmpty()) 
 				array = anzeigeStore.getAllAnzeige(nachwas);
 			else 
-				array = anzeigeStore.getAllAnzeige("");
-			// sortieren und filtern hier
+				array = anzeigeStore.getAllAnzeige("");// wird beim Switch default gewählt
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			request.setAttribute("result", array);
@@ -61,7 +61,6 @@ public class HauptseiteServlet extends HttpServlet {
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
-			//e.printStackTrace();
 		}
 	}
 
