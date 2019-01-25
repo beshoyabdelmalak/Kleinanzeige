@@ -29,7 +29,7 @@ return true;
           <fieldset> <legend>Anzeige anlegen:</legend>
             Titel:<br> <input type="text" name="Titel" maxlength ="100" placeholder= "HP Probook 480" required> <br>
             Text:<br> <input type="text" name="Text" placeholder= "neue Ware" required> <br>
-            Preis:<br> <input type="number" name="Preis"min= "0" placeholder= "900" required> € <br><br>
+            Preis:<br> <input type="number" name="Preis" min= "0" placeholder= "900" required> € <br><br>
             
              <fieldset > <legend>geben Sie die Kategorie Ihrer Anzeige an:</legend>
 			       <input name="chk[]" type="checkbox" value="Digitale Waren">Digitale Waren

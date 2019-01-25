@@ -23,7 +23,7 @@ public final class LogoutServlet extends HttpServlet {
         // Put the user list in request and let freemarker paint it.
        HttpSession session = request.getSession(false);
        try{
-    	   session.removeAttribute("username");
+    	   session.removeAttribute("benutzername");
     	   session.invalidate();
     	   response.sendRedirect("login");
        }catch(Exception e) {

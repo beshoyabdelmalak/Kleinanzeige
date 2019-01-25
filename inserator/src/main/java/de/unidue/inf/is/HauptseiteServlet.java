@@ -32,9 +32,10 @@ public class HauptseiteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		try {
-			session.getAttribute("username");
+			session.getAttribute("benutzername");
 			AnzeigeStore anzeigeStore = new AnzeigeStore(); 
 			ArrayList<Anzeige> array = new ArrayList<>();
+			// der teil für sortieren und filtern zuständig
 			String filter = request.getParameter("filter");
 			String sort = request.getParameter("sort");
 			String nachwas = "";
@@ -50,6 +51,7 @@ public class HauptseiteServlet extends HttpServlet {
 				array = anzeigeStore.getAllAnzeige(nachwas);
 			else 
 				array = anzeigeStore.getAllAnzeige("");
+			// sortieren und filtern hier
 			anzeigeStore.complete();
 			anzeigeStore.close();
 			request.setAttribute("result", array);

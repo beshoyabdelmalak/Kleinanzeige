@@ -47,7 +47,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		try {
 			
-			benutzername = (String) session.getAttribute("username");
+			benutzername = (String) session.getAttribute("benutzername");
 			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			id = Integer.parseInt(request.getParameter("id"));
 			anzeige = anzeigeStore.getAnzeige(id);
@@ -87,59 +87,69 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// wem welche Tasten angezeigt werden müßen, wurde das in der entsprechnden FTL-Datei behandelt mit hilfe von Variable Status
-		//in der zeile 60 und die variable kaeufer in der zeile 59
-		int id = Integer.parseInt(request.getParameter("id"));
-		String kommentarfield = escapeHtml(request.getParameter("kommentarfield"));
-		String action = request.getParameter("action");
-		//action ist eine variable kommt per url von html, definiert welche tast gedrückt wurde 
-		if (null != kommentarfield && !kommentarfield.isEmpty() && action.equals("kommentieren")) {
-			AnzeigeStore anzeigeStore = new AnzeigeStore();
-			anzeigeStore.addKommentar(kommentarfield);
-			int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
-			anzeigeStore.insertIntoHatKommentar(result, benutzername, id);
-			anzeigeStore.complete();
-			anzeigeStore.close();
-			doGet(request, response);
-		} else {
-			if (action.equals("kaufen")) {
-				AnzeigeStore anzeigeStore = new AnzeigeStore();
-				if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv   ")) {
-					//Achtung lösche das leere String nach aktiv nicht, das ist teil der Implemetierung
-					anzeigeStore.insertIntoKauft(benutzername, id);
+		HttpSession session = request.getSession(false);
+			try {
+				benutzername = (String) session.getAttribute("benutzername");
+				// wem welche Tasten angezeigt werden müßen, wurde das in der entsprechnden FTL-Datei behandelt mit hilfe von Variable Status
+				//in der zeile 60 und die variable kaeufer in der zeile 59
+				int id = Integer.parseInt(request.getParameter("id"));
+				String kommentarfield = escapeHtml(request.getParameter("kommentarfield"));
+				String action = request.getParameter("action");
+				//action ist eine variable kommt per url von html, definiert welche tast gedrückt wurde 
+				if (null != kommentarfield && !kommentarfield.isEmpty() && action.equals("kommentieren")) {
+					AnzeigeStore anzeigeStore = new AnzeigeStore();
+					anzeigeStore.addKommentar(kommentarfield);
+					int result = anzeigeStore.idOfTheLastInsertedValue("select max(a.id) from dbp64.kommentar a ");
+					anzeigeStore.insertIntoHatKommentar(result, benutzername, id);
 					anzeigeStore.complete();
 					anzeigeStore.close();
 					doGet(request, response);
-				}else{
-					//Fehler behndlung wenn 2 gleichzeitig die selbe Anzeige kaufen gedrückt haben
-					request.setAttribute("message", "die Anzeige ist leider schon verkauft");
-					request.setAttribute("hauptseite", "hauptseite");
-					request.setAttribute("melde", "");
-					request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
-				}
-			} else {
-				if (action.equals("löschen")) {
-					AnzeigeStore anzeigeStore = new AnzeigeStore();
-					ArrayList<Integer> kommentarIDs = new ArrayList<>();
-					kommentarIDs = anzeigeStore.getkommentarIDsEinerAnzeige(id);
-					for(int k : kommentarIDs) {
-						anzeigeStore.deleteKommentarWithId(k);
-					}
-					anzeigeStore.deleteAnzeigeWithId(id);
-					anzeigeStore.complete();
-					anzeigeStore.close();
-					response.sendRedirect("hauptseite");
 				} else {
-					if (action.equals("editieren")) {
-						response.sendRedirect("anzeigeEditieren?id=" + id);
-
+					if (action.equals("kaufen")) {
+						AnzeigeStore anzeigeStore = new AnzeigeStore();
+						if(anzeigeStore.getAnzeige(id).getStatus().equals("aktiv   ")) {
+							//Achtung lösche das leere String nach aktiv nicht, das ist teil der Implemetierung
+							anzeigeStore.insertIntoKauft(benutzername, id);
+							anzeigeStore.complete();
+							anzeigeStore.close();
+							doGet(request, response);
+						}else{
+							//Fehler behndlung wenn 2 gleichzeitig die selbe Anzeige kaufen gedrückt haben
+							request.setAttribute("message", "die Anzeige ist leider schon verkauft");
+							request.setAttribute("hauptseite", "hauptseite");
+							request.setAttribute("melde", "");
+							request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+						}
 					} else {
-						doGet(request, response);
-					}
-				}
-			}
+						if (action.equals("löschen")) {
+							AnzeigeStore anzeigeStore = new AnzeigeStore();
+							ArrayList<Integer> kommentarIDs = new ArrayList<>();
+							kommentarIDs = anzeigeStore.getkommentarIDsEinerAnzeige(id);
+							for(int k : kommentarIDs) {
+								anzeigeStore.deleteKommentarWithId(k);
+							}
+							anzeigeStore.deleteAnzeigeWithId(id);
+							anzeigeStore.complete();
+							anzeigeStore.close();
+							response.sendRedirect("hauptseite");
+						} else {
+							if (action.equals("editieren")) {
+								response.sendRedirect("anzeigeEditieren?id=" + id);
 
-		}
+							} else {
+								doGet(request, response);
+							}
+						}
+					}
+
+				}
+			}catch(NullPointerException e) {
+				//Fehler behandlung, wenn ein Fremder einen Zugriff auf eine Seite, auf die er keinen zugriff hat
+				request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+				request.setAttribute("hauptseite", "");
+				request.setAttribute("melde", "anmelde");
+				request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+			}
 	}
 
 }

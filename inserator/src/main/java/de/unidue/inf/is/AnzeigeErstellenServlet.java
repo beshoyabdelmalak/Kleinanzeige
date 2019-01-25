@@ -27,7 +27,7 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 		// Put the user list in request and let freemarker paint it.
 		HttpSession session = request.getSession(false);
 		try {
-			benutzername = (String) session.getAttribute("username");
+			benutzername = (String) session.getAttribute("benutzername");
 			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
 		} catch (NullPointerException e) {
 			request.setAttribute("message",
@@ -41,8 +41,9 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		HttpSession session = request.getSession(false);
 		try {
+			benutzername = (String) session.getAttribute("benutzername");
 			// TODO den Teil von zeile 54 bis 67 hab ich noch nicht probiert
 			String titel = escapeHtml(request.getParameter("Titel"));
 			String text = escapeHtml(request.getParameter("Text"));
@@ -77,6 +78,12 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 					"Sie haben entweder eine Folge von Zeichen als Preis oder gar keinen Preis eingegeben !!");
 			request.setAttribute("hauptseite", "hauptseite");
 			request.setAttribute("melde", "");
+			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+		}catch (NullPointerException e) {
+			request.setAttribute("message",
+					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 	}

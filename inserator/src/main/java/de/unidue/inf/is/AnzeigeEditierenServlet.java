@@ -37,7 +37,7 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		try{
-			benutzername = (String) session.getAttribute("username");
+			benutzername = (String) session.getAttribute("benutzername");
 			id = Integer.parseInt(request.getParameter("id"));
 			AnzeigeStore anzeigeStore = new AnzeigeStore();
 			Anzeige anzeige = anzeigeStore.getAnzeige(id);
@@ -84,8 +84,9 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		HttpSession session = request.getSession(false);
 		try {
+			benutzername = (String) session.getAttribute("benutzername");
 			id = Integer.parseInt(request.getParameter("id"));
 			String titel = escapeHtml(request.getParameter("Titel"));
 			String text = escapeHtml(request.getParameter("Text"));
@@ -119,6 +120,12 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 					"Sie haben entweder eine Folge von Zeichen als Preis oder gar keinen Preis eingegeben !!");
 			request.setAttribute("hauptseite", "hauptseite");
 			request.setAttribute("melde", "");
+			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
+		}catch (NullPointerException e) {
+			request.setAttribute("message",
+					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("hauptseite", "");
+			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
 		}
 
