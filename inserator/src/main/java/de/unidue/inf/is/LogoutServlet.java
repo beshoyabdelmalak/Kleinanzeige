@@ -20,9 +20,9 @@ public final class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Put the user list in request and let freemarker paint it.
        HttpSession session = request.getSession(false);
        try{
+    	   //der Angemeldte benutzer von session loschen, und die session ungultig machen
     	   session.removeAttribute("benutzername");
     	   session.invalidate();
     	   response.sendRedirect("login");

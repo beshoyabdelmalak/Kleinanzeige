@@ -28,10 +28,10 @@ public final class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession(false);
     	try{
-    		session.getAttribute("username"); 
+    		session.getAttribute("benutzername"); 
 		    String username = request.getParameter("username");
 		   
-		    //get the user information
+		    //beutzer informationen	
 		    UserStore userStore = new UserStore();
 		    User user = userStore.getUser(username);
 		    userStore.complete();
@@ -41,14 +41,15 @@ public final class UserServlet extends HttpServlet {
 		    request.setAttribute("items", user.getGekauft());
 		    request.setAttribute("date", user.getEintrittsDatum());
 		    
-		    //get the offered ads
+		    //Angeboten Anzeige 
 		    AnzeigeStore anzeigeStore = new AnzeigeStore();
 		    ArrayList<Anzeige> anzeige = anzeigeStore.getOffersByUsername(username);
 		    request.setAttribute("result", anzeige);
 		    
-		    //get the purchased items
+		    //Gekauften Anzeige
 		    ArrayList<Anzeige> purchased = anzeigeStore.getPurchasedOffers(username);
 		    request.setAttribute("purchased", purchased);
+		    
 		    request.getRequestDispatcher("/user.ftl").forward(request, response);
 		}catch (Exception e) {
 			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");

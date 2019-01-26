@@ -25,12 +25,18 @@ public final class LoginServlet extends HttpServlet {
     private boolean loginStatus = false;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    		request.setAttribute("navtype", "general");
-    		if(loginStatus) {
+    	HttpSession oldSession = request.getSession(false);
+    	//zugriff aud die login seite von dem angemeldten anwneder nicht moglich.
+    	if (oldSession == null) {
+			request.setAttribute("navtype", "general");
+			if(loginStatus) {
 				request.setAttribute("navtype", "false");
 				loginStatus = false;
-    		}
-    		request.getRequestDispatcher("/login.ftl").forward(request, response);
+			}
+			request.getRequestDispatcher("/login.ftl").forward(request, response);
+    	}else {
+    		response.sendRedirect("hauptseite");
+    	}
 
     }
     @Override
@@ -42,6 +48,7 @@ public final class LoginServlet extends HttpServlet {
     	userList = user.getUserNames();
     	for(String u: userList ) {
     		if(benutzername.equals(u)){
+    			// session erstellen um der anwender zu merken
     			HttpSession session = request.getSession();
     			session.setAttribute("benutzername", benutzername);
     			response.sendRedirect("hauptseite");
@@ -49,6 +56,7 @@ public final class LoginServlet extends HttpServlet {
     		}
     	}
     	if(hilfsvar) {
+    		// bemerken ein fehlerhaft login 
     		loginStatus = true;
 			doGet(request, response);
 		}
