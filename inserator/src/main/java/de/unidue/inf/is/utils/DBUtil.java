@@ -28,7 +28,7 @@ public final class DBUtil {
         }
     }
 
-    
+
     public static Connection getConnection(String database) throws SQLException {
         final String url = "jdbc:db2:" + database;
         return DriverManager.getConnection(url);
@@ -38,21 +38,21 @@ public final class DBUtil {
     // Diese Methode benutzen, um sich von außerhalb der Uni mit der DB zu verbinden
     public static Connection getExternalConnection(String database) throws SQLException {
         Properties properties = new Properties();
-        
+
         InputStream input = null;
     	try {
-    		
+
     		input = new FileInputStream("settings.properties");
     		// Zugangsdaten aus der Properties-Datei lesen
     		properties.load(input);
     	} catch (IOException ex) {
     		ex.printStackTrace();
     	}
-    	
+
 		String user = properties.getProperty("gruppenname");
 		String pass = properties.getProperty("passwort");
 		String rechnername = properties.getProperty("rechnername");
-		
+
 		String gruppennummer = user.substring(user.length()-2,user.length());
 
         final String url = "jdbc:db2://"+rechnername+".is.inf.uni-due.de:500"+gruppennummer+"/" + database + ":currentSchema="+user+";";

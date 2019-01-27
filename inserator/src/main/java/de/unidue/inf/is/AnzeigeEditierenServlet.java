@@ -71,7 +71,7 @@ public class AnzeigeEditierenServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("/anzeigeEditieren.ftl").forward(request, response);
 		} catch(NullPointerException e) {
-			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie eine Anzeige editieren");
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);

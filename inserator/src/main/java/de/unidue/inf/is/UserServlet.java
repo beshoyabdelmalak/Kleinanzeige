@@ -60,7 +60,7 @@ public final class UserServlet extends HttpServlet {
 		    
 		    request.getRequestDispatcher("/user.ftl").forward(request, response);
 		}catch (Exception e) {
-			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Userseite kommen");
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);

@@ -63,7 +63,7 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 			// Fehler behandlung, wenn ein Fremder einen Zugriff auf eine Seite, auf die er
 			// keinen zugriff hat
 			request.setAttribute("message",
-					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Anzeigedetailsseite kommen");
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
@@ -105,6 +105,8 @@ public class AnzeigeDetailsServlet extends HttpServlet {
 					anzeigeStore.close();
 					doGet(request, response);
 				} else {
+					anzeigeStore.complete();
+					anzeigeStore.close();
 					// Fehler behndlung wenn 2 gleichzeitig die selbe Anzeige kaufen gedrückt haben
 					request.setAttribute("message", "die Anzeige ist leider schon verkauft");
 					request.setAttribute("hauptseite", "hauptseite");
