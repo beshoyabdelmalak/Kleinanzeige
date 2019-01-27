@@ -37,8 +37,10 @@ body{
 .column {
 	display: inline-block;
 	background-color:#DCDCDC;
-	width: 300px;
-	height: 175px;
+	min-width: 300px;
+	width: auto;
+	min-height: 175px;
+	height:auto;
 	padding: 5px; 
 	margin :5px 0;
 	text-algin : left;
@@ -58,8 +60,10 @@ span{
 .purchased{
 	display: inline-block;
 	background-color:#696969;
-	width: 300px;
-	height: 225px;
+	min-width: 300px;
+	width:auto;
+	min-height: 225px;
+	height:auto;
 	padding: 5px; 
 	margin :5px 0;
 }
@@ -70,12 +74,12 @@ span{
 .purchased span{
 	float : left;
 }
-.purchased a{
+.purchased #ersteller{
 	float: right;
 	font-size : 20px;
 	margin-top: 5px;
 }
-.purchased p{
+.purchased #status{
 	float: right;
 }
 hr{

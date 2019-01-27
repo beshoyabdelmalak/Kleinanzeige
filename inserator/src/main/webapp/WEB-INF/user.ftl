@@ -26,6 +26,7 @@
 	    <#list result as anzeige>
     	  <div class="column">
     	  	<h4><a href="anzeigeDetails?id=${anzeige.getId()}" >${anzeige.getTitel()} </a></h4>
+    	  	<p>${anzeige.getText()} </p>
         	<h4>seit : ${anzeige.getDate()}</h4>
         	<hr>
         	<span>Preis : ${anzeige.getPreis()}€</span>
@@ -38,15 +39,15 @@
   		<h2>Gekauft</h2>
 	    <#list purchased as anzeige>
     	  <div class= "purchased">
-    	  	<h4>${anzeige.getTitel()} </h4>
-    	  	<h3>${anzeige.getText()} </h3>
+    	  	<h3><a href="anzeigeDetails?id=${anzeige.getId()}" >${anzeige.getTitel()} </a></h3>
+    	  	<p>${anzeige.getText()} </p>
         	<h4>seit : ${anzeige.getDate()}</h4>
         	<span>Preis : ${anzeige.getPreis()}€</span>
-        	<a href='user?username=${anzeige.getErsteller()}'>${anzeige.getErsteller()}</a>
+        	<a href='user?username=${anzeige.getErsteller()}' id="ersteller">${anzeige.getErsteller()}</a>
         	<br>
         	<br>
         	<hr>
-        	<p>${anzeige.getStatus()}</p>
+        	<p id="status">${anzeige.getStatus()}</p>
       	</div>
       	</#list>
   	</div>
