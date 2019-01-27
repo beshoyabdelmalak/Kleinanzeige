@@ -1,6 +1,7 @@
 <html>
 <head>
 <title> Anzeigeerstellung </title>
+<link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript">
 function val(){
 var chks = document.getElementsByName('chk[]');

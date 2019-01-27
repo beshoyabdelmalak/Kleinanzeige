@@ -55,6 +55,9 @@ public final class UserServlet extends HttpServlet {
 		    ArrayList<Anzeige> purchased = anzeigeStore.getPurchasedOffers(username);
 		    request.setAttribute("purchased", purchased);
 		    
+		    anzeigeStore.complete();
+		    anzeigeStore.close();
+		    
 		    request.getRequestDispatcher("/user.ftl").forward(request, response);
 		}catch (Exception e) {
 			request.setAttribute("message", "Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");

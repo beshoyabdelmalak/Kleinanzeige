@@ -1,6 +1,7 @@
 <html>
 <head>
 <title> Anzeige editieren </title>
+<link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript">
 function val(){
 var chks = document.getElementsByName('chk[]');
@@ -27,9 +28,9 @@ return true;
 	<h1> Editieren Sie Ihre Anzeige </h1>
     <form name = "anzeigeErstellung"  method="post">
           <fieldset> <legend>Anzeige anlegen:</legend>
-            Titel:<br> <input type="text" name="Titel" maxlength ="100" value = "${valueOfTitel}" required> <br>
-            Text:<br> <input type="text" name="Text" value = "${valueOfText}" required> <br>
-            Preis:<br> <input type="number" name="Preis"min= "0" value = "${valueOfPreis}" required> € <br><br>
+            Titel: <input type="text" name="Titel" maxlength ="100" value = "${valueOfTitel}" required> <br>
+            Text: <input type="text" name="Text" value = "${valueOfText}" required> <br>
+            Preis: <input type="number" name="Preis"min= "0" value = "${valueOfPreis}" required> € <br><br>
             
              <fieldset > <legend>geben Sie die Kategorie Ihrer Anzeige an:</legend>
 			       <input name="chk[]" type="checkbox" value="Digitale Waren" ${valueOfchk1} >Digitale Waren
