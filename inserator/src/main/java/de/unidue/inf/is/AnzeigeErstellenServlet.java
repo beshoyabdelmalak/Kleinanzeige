@@ -29,7 +29,7 @@ public final class AnzeigeErstellenServlet extends HttpServlet {
 			request.getRequestDispatcher("/anzeigeErstellen.ftl").forward(request, response);
 		} catch (NullPointerException e) {
 			request.setAttribute("message",
-					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie in die Hauptseite kommen");
+					"Sie haben sich nicht angemeldet, bitte melden Sie Sich bevor Sie eine Anzeige erstellen");
 			request.setAttribute("hauptseite", "");
 			request.setAttribute("melde", "anmelde");
 			request.getRequestDispatcher("/ErrorAnmeldung.ftl").forward(request, response);
