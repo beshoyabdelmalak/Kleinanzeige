@@ -12,6 +12,12 @@
   		<h3>${name}</h3>
   		<p>Beitrittsdatum : ${date}</p>
   		<p>Anzahl von verkaufter artikel : ${items}</p>
+  		<#if different == "true">
+  			<form action="nachricht" method="GET" >
+  				<input type="hidden" name="user" value="${username}">
+  				<input type="submit" value="Private Nachricht">
+  			</form>
+  		</#if>
   	</div>
   	<hr>
 

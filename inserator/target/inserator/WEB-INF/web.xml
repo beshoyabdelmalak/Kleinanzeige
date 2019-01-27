@@ -82,7 +82,7 @@
     <servlet-name>anzeigeDetails_servlet</servlet-name>
     <url-pattern>/anzeigeDetails</url-pattern>
   </servlet-mapping>
-      <servlet>
+  <servlet>
     <servlet-name>anzeigeEditieren_servlet</servlet-name>
     <servlet-class>de.unidue.inf.is.AnzeigeEditierenServlet</servlet-class>
   </servlet>
@@ -97,6 +97,14 @@
   <servlet-mapping>
     <servlet-name>user_servlet</servlet-name>
     <url-pattern>/user</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>nachricht_servlet</servlet-name>
+    <servlet-class>de.unidue.inf.is.NachrichtServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>nachricht_servlet</servlet-name>
+    <url-pattern>/nachricht</url-pattern>
   </servlet-mapping>
   <security-constraint>
     <web-resource-collection>

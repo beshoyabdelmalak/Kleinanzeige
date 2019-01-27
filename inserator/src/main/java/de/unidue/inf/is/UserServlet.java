@@ -30,6 +30,11 @@ public final class UserServlet extends HttpServlet {
     	try{
     		session.getAttribute("benutzername"); 
 		    String username = request.getParameter("username");
+		    
+		    request.setAttribute("different", "false");
+		    if(!session.getAttribute("benutzername").equals(username)) {
+		    	request.setAttribute("different", "true");
+		    }
 		   
 		    //beutzer informationen	
 		    UserStore userStore = new UserStore();
