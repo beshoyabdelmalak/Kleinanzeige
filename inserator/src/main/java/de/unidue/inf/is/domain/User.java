@@ -1,5 +1,5 @@
 package de.unidue.inf.is.domain;
-import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat; 
 import java.util.*;
 
 public final class User {
